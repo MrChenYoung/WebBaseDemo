@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>HTML标签汇总</title>
+	<meta charset="utf-8">
+	<base target="_blank">
+
+
+</head>
+<body>
+
+	<!-- 设置回到顶部锚点(设置任意一个标签的id) -->
+	<p id="top"></p>
+
+	<h1>一、单标签</h1>
+
+	<hr>
+	<!-- 注释标签 -->
+	<h3>1.注释标签(&lt;!-- --&gt;)</h3>
+	<!-- 这是一段注释文字，注释不会在浏览器里显示 -->
+
+	<hr>
+	<!-- 换行标签 -->
+	<h3>2. 换行标签(&lt;br&gt;)</h3>
+	第一行文本<br>第二行文本
+
+	<hr>
+	<!-- 水平线标签 -->
+	<h3>3. 水平线标签&lt;hr&gt;</h3>
+	<hr width="400" size="2" align="left" noshade="noshade">
+
+	<hr>
+	<!-- 图片标签 -->
+	<h3>4.图片标签(&lt;img&gt;)</h3>
+	<img 
+		src="image/picture.jpg" 
+		alt="图片不存在" 
+		align="top" 
+		border="2"
+		hspace="100" 
+		vspace="30" 
+		width="100" 
+		height="60">
+
+	<hr>
+	<!-- 输入控件标签 -->
+	<h3>5. 输入控件标签</h3>
+	<h4>5.1 文本输入框(type="text")</h4>
+	昵称: <input type="text" name="username" size="50" maxlength="3" placeholder="请输入昵称">
+
+	<h4>5.2 密码输入框(type="password")</h4>
+	密码: <input type="password" name="psd" size="20" value="123456" maxlength="4">
+
+	<h4>5.3 单选按钮(type="radio")</h4>
+	性别: <input type="radio" name="gender" checked="checked" value="man">男
+		 <input type="radio" name="gender" readonly="readonly" value="woman">女
+
+	<h4>5.4 复选框(type="checkbox")</h4>
+	以下哪些属于水果:<br>
+		<input type="checkbox" name="" checked="checked">苹果<br>
+		<input type="checkbox" name="">香蕉<br>
+		<input type="checkbox" name="">土豆<br>
+
+	<h4>5.5 文件上传文件控件(type="file")</h4>
+	<input type="file" name="">
+
+	<h4>5.6 普通按钮(type="button")</h4>
+	<input type="button" name="" value="按钮">
+
+	<h4>5.7 拾色器(type="color")</h4>
+	<input type="color" name="">
+
+	<h4>5.8 日期选择控件(type="date")</h4>
+	<input type="date" name="">
+
+	<h4>5.9 日期时间选择控件(type="datetime-local")</h4>
+	<input type="datetime-local" name="">
+
+	<h4>5.10 月选择控件(type="month")</h4>
+	<input type="month" name="">
+
+	<h4>5.11 周选择控件(type="week")</h4>
+	<input type="week" name="">
+
+	<h4>5.12 时间选择控件(type="time")</h4>
+	<input type="time" name="">
+
+	<h4>5.13 邮箱输入框(type="email")</h4>
+	<form>
+		<input type="email" name="">
+		<input type="submit" name="">
+	</form>
+	
+
+	<h4>5.14 隐藏输入字段(type="hidden")</h4>
+	<input type="hidden" name="">
+
+	<h4>5.15 定义图片作为提交按钮(type="image")</h4>
+	<input type="image" name="" src="image/按钮.jpg" width="100" height="60">
+
+	<h4>5.16 定义带有spinner控件的数字字段(type="number")</h4>
+	<input type="number" name="" value="1" step="5">
+
+	<h4>5.17 定义带有slider控件的数字字段(type="range")</h4>
+	<input type="range" name="">
+
+	<h4>5.18 定义重置按钮,重置按钮会将所有表单字段重置为初始值(type="reset")</h4>
+	<form>
+		<input type="text" name="" value="张三" >
+		<input type="reset" name="">
+	</form>
+	
+
+	<h4>5.19 定义用于搜索的文本字段(type="search")</h4>
+	<form>
+		<input type="search" name="" value="姓名">
+		<input type="submit" value="搜索" name="">
+	</form>
+	
+
+	<h4>5.20 定义提交按钮,提交按钮向服务器发送数据(type="submit")</h4>
+	<form>
+		<input type="submit" name="">
+	</form>
+	
+
+	<h4>5.21 定义用于电话号码的文本字段(type="tel")</h4>
+	<form>
+		<input type="tel" name="" placeholder="请输入正确的电话号码">
+		<input type="submit" name="">
+	</form>
+	
+
+	<h4>5.22 定义用于 URL 的文本字段(type="url")</h4>
+	<form>
+		<input type="url" name="" placeholder="请输入正确的网址">
+		<input type="submit" name="">
+	</form>
+
+	<hr>
+	<!-- 超链接标签 -->
+	<h3>6. 超链接标签(&lt;a&gt;&lt;/a&gt;)</h3>
+	<a href="http://www.baidu.com" target="_blank" title="百度">百度</a><br>
+	<a href="/Users/mrchen/Desktop/screenshot" >本地跳转</a><br>
+	<a href="#">空链接</a><br>
+	<a href="#top">回到顶部</a><br>
+	<a href="http://dldir1.qq.com/qqfile/QQforMac/QQ_V6.5.3.dmg">下载QQ</a>
+
+	<hr>
+	<!-- 文本加粗标签 -->
+	<h3>7.文本加粗标签(&lt;b&gt;&lt;/b&gt;或&lt;strong&gt;&lt;strong&gt;)</h3>
+	<b>粗体文本一</b><br>
+	<strong>粗体文本二</strong><br><br>
+
+	<hr>
+	<!-- 自定义列表 -->
+	<h3>8.自定义列表(&lt;dl&gt;&lt;/dl&gt;)</h3>
+	<dl>
+		<dt>水果</dt>
+		<dd>苹果</dd>
+		<dd>香蕉</dd>
+		<dt>蔬菜</dt>
+		<dd>菠菜</dd>
+		<dd>小青菜</dd>
+	</dl>
+
+	<hr>
+	<!-- 音乐播放标签 -->
+	<h3>9.音乐播放标签(&lt;embed&gt;&lt;/embed&gt;)</h3>
+	<embed src="2.mp3" width="100" height="80" hidden="false" flashvars="autoplay=false&play=false" play="false" autostart="false" loop="false" menu="false" />
+
+	<hr>
+	<!-- 文本样式标签 -->
+	<h3>10.文本样式标签(&lt;font&gt;&lt;/font&gt;不建议使用,建议用css替换该标签)</h3>
+	<font color="red" size="4" face="font_family" >多样式的文本</font>
+
+	<hr>
+	<!-- 表单控件 -->
+	<h3>11.表单控件(&lt;form&gt;&lt;/form&gt;)</h3>
+	<form>
+		<fieldset>
+			<legend>用户登录</legend>
+			昵称: <input type="text" name="nickname" placeholder="请输入昵称">
+			<br>
+			密码: <input type="password" name="psd" placeholder="请输入密码">
+			<input type="submit" name="" value="登录">
+		</fieldset>
+	</form>
+
+	<hr>
+	<!-- 标题标签 -->
+	<h3>12.标题标签(&lt;hn&gt;&lt;/hn&gt;)</h3>
+	<h1>一级标题</h1>
+	<h2>二级标题</h2>
+	<h3>三级标题</h3>
+	<h4>四级标题</h4>
+	<h5>五级标题</h5>
+	<h6>六级标题</h6>
+
+	<hr>
+	<!-- 斜体文本标签 -->
+	<h3>13.斜体文本标签(&lt;i&gt;&lt;/i&gt;或&lt;em&gt;&lt;/em&gt;)</h3>
+	<i>斜体文本一</i><br>
+	<em>斜体文本二</em>
+
+	<hr>
+	<!-- 滚动行为标签 -->
+	<h3>14.滚动行为标签(&lt;marquee&gt;&lt;/marquee&gt;)</h3>
+	<marquee 
+		behavior="slide" 
+		direction="right" 
+		width="1000" 
+		height="80" 
+		bgcolor="red"
+		hspace="20"
+		vspace="20"
+		loop="2"
+		scrollamount="10"
+		scrolldelay="100"
+		align="top">
+			重要通知!
+	</marquee>
+
+
+	<hr>
+	<!-- 有序列表 -->
+	<h3>15.有序列表(&lt;ol&gt;&lt;/ol&gt;)</h3>
+	<ol>
+		<li>有序列表1</li>
+		<li>有序列表2</li>
+	</ol>
+	<ol type="a" start="3">
+		<li>有序列表3</li>
+		<li>有序列表4</li>
+	</ol>
+	<ol>
+		<li value="5">有序列表5</li>
+		<li>有序列表6</li>
+	</ol>
+
+	<hr>
+	<!-- 段落标签 -->
+	<h3>16.段落标签(&lt;p&gt;&lt;/p&gt;)</h3>
+	<p>
+		别人笑我太疯癫，我笑他人看不穿；<br/>
+		不见豪杰五陵墓，无花无酒锄作田。
+	</p>
+	
+	<hr>
+	<!-- 加删除线文本标签 -->
+	<h3>17.加删除线文本标签(&lt;s&gt;&lt;/s&gt;或&lt;del&gt;&lt;/del&gt;)</h3>
+	<s>原价：180￥</s><br>
+	<del>原价：998￥</del>
+
+	<hr>
+	<!-- 定义选择列表（下拉列表） -->
+	<h3>18.定义选择列表（下拉列表）(&lt;select&gt;&lt;/select&gt;)</h3>
+	<select >
+		<optgroup label="北京市">
+			<option>东城区</option>
+			<option>西城区</option>
+			<option>海淀区</option>
+			<option>昌平区</option>
+		</optgroup>
+		<optgroup label="上海市">
+			<option>嘉定区</option>
+			<option>宝山区</option>
+			<option>浦东新区</option>
+			<option>青浦区</option>
+		</optgroup>
+		<optgroup label="河南">
+			<option>郑州</option>
+			<option>洛阳</option>
+			<option>平顶山</option>
+			<option>开封</option>
+		</optgroup>
+	</select>
+
+	<hr>
+	<h3>19.表格标签(&lt;table&gt;&lt;/table&gt;)</h3>
+	<table border="1" width="300"  cellspacing="0" cellpadding="2" bgcolor="red">
+		<caption><h3>学生登记表</h3></caption>
+		<tr>
+			<th>姓名</th>
+			<th>性别</th>
+			<th>年龄</th>
+		</tr>
+		<tr>
+			<td colspan="2">张三</td>
+			<!-- <td>男</td> -->
+			<td>18</td>
+		</tr>
+		<tr>
+			<td rowspan="2">小明</td>
+			<td>男</td>
+			<td>20</td>
+		</tr>
+		<tr>
+			<!-- <td>小红</td> -->
+			<td>女</td>
+			<td>22</td>
+		</tr>
+
+	</table>
+
+	<hr>
+	<!-- 多行输入框 -->
+	<h3>20.多行输入框(&lt;textarea&gt;&lt;/textarea&gt;)</h3>
+	<textarea cols="20" rows="4" maxlength="10" placeholder="请输入文字"></textarea>
+
+
+	<hr>
+	<!-- 加下划线文本标签 -->
+	<h3>21.加下划线文本标签(&lt;u&gt;&lt;/u&gt;或&lt;ins&gt;&lt;/ins&gt;)</h3>
+	<u>有下划线的文本一</u><br>
+	<ins>有下划线的文本二</ins><br><br>
+
+	<hr>
+	<!-- 无序列表 -->
+	<h3>22.无序列表(&lt;ul&gt;&lt;/ul&gt;)</h3>
+	<ul type="disic">
+		<li>无序列表1</li>
+		<li>无序列表2</li>
+	</ul>
+	<ul type="square">
+		<li>无序列表3</li>
+		<li>无序列表4</li>
+	</ul>
+	<ul type="circle">
+		<li>无序列表5</li>
+		<li>无序列表6</li>
+	</ul>
+
+</body>
+</html>
