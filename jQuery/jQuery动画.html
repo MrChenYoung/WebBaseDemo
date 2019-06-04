@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <title>jQuery动画</title>
+        <style>
+            button {
+                font-size: 14px;
+                padding: 3px;
+                margin: 5px;
+            }
+
+            span {
+                font-size: 12px;
+            }
+
+            .right {
+                width: 50%;
+                float: right;
+            }
+            .animater {
+                width: 300px;
+                height: 300px;
+                background-color: #0096ff;
+                overflow: hidden;
+                position: fixed;
+                top: 200px;
+                right: 200px;
+            }
+
+            .animater p {
+                color: #fff;
+                font-size: 20px;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                margin: 5px;
+                position: absolute;
+                text-align: center;
+            }
+
+            .l {
+                left: 0;
+            }
+            .r {
+                right: 0;
+            }
+            .t {
+                top: 0;
+            }
+            .b {
+                bottom: 0;
+            }
+
+            /* 完整语法格式 */
+            .full-syntax {
+                color: red;
+            }
+
+            /* 当前所用语法 */
+            .current-syntax {
+                color: blue;
+            }
+
+            /* 废弃版本 */
+            .abandoned-syntax {
+                color: green;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 动画元素 -->
+        <div class="right" id="right">
+            <div class="animater" id="animater">
+                <p class="l t">动</p>
+                <p class="r t">画</p>
+                <p class="l b">元</p>
+                <p class="r b">素</p>
+            </div>
+        </div>
+
+        <!-- 动画速度选择 -->
+        <select name="" id="animate_speed">
+            <option value="">动画速度</option>
+            <option value="">无</option>
+            <option value="slow">slow</option>
+            <option value="normal">normal</option>
+            <option value="fast">fast</option>
+        </select>
+
+        <!-- 动画效果选择 -->
+        <select name="" id="animate_xg">
+            <option value="">动画效果</option>
+            <option value="swing">swing</option>
+            <option value="linear">linear</option>
+        </select>
+
+        <!-- 动画完成提醒 -->
+        <select name="" id="animate_warn">
+            <option value="false">动画完成提醒</option>
+            <option value="true">是</option>
+            <option value="false">否</option>
+        </select>
+
+
+        <p class ="full-syntax" style="font-size: 14px">红色标记完整语法，蓝色标记当前示例所用语法，"[]"内部参数表示可选参数</p>
+        <h4>1. 显示/隐藏动画</h4>
+        <div>
+            <button id="btn_show1">动画隐藏</button>
+            <span class="full-syntax">show([speed, [easing], [fn]]) hide([speed, [easing], [fn]])</span>
+        </div>
+        <div>
+            <button id="btn_toggle">显示/隐藏切换</button>
+            <span class="full-syntax">toggle([speed], [easing], [fn])</span>
+        </div>
+
+        <h4>2. 滑动动画</h4>
+        <div>
+            <button id="btn_slide">上拉隐藏</button>
+            <span class="full-syntax">slideUp([speed, [easing], [fn]]) slideDown([speed], [easing], [fn])</span>
+        </div>
+        <div>
+            <button id="btn_slideToggle">上拉/下拉切换</button>
+            <span class="full-syntax">slideToggle([speed], [easing], [fn])</span>
+        </div>
+
+        <h4>3. 淡入淡出动画</h4>
+        <div>
+            <button id="btn_fade">淡入</button>
+            <span class="full-syntax">fadeIn([speed], [easing], [fn]) fadeOut([speed], [easing], [fn])</span>
+        </div>
+        <div>
+            <button id="btn_fadeSloggle">淡入/淡出切换</button>
+            <span class="full-syntax">fadeToggle([speed,[easing],[fn]])</span>
+        </div>
+        <div>
+            <button id="btn_fadeTo">透明度渐进</button>
+            <span class="full-syntax">fadeTo([[speed],opacity,[easing],[fn]])</span>
+        </div>
+
+        <h4>4. 自定义动画</h4>
+        <div>
+            <button id="btn_custom">自定义动画</button>
+            <span class="full-syntax">animate(params,[speed],[easing],[fn])</span>
+        </div>
+
+        <h4>5. 控制动画执行</h4>
+        <div>
+            <button id="btn_animateCtr">控制动画</button>
+            <span class="full-syntax">stop([clearQueue],[jumpToEnd])</span>
+        </div>
+
+        <h4>6. 延迟动画执行</h4>
+        <div>
+            <button id="btn_delayAnimate">延迟动画</button>
+            <span class="full-syntax">delay(duration,[queueName])</span>
+        </div>
+
+        <h4>7. 快速执行完动画并清空后续动画</h4>
+        <div>
+            <button id="btn_finishAnimate">快速完成动画</button>
+            <span class="full-syntax">finish([queue])</span>
+        </div>
+
+        <h4>8. 开启/关闭所有动画</h4>
+        <div>
+            <button id="btn_closeAnimate">关闭所有动画</button>
+            <span>jQuery.fx.off</span>
+        </div>
+
+    </body>
+</html>
+<script src="./jquery-3.4.1.min.js"></script>
+<script>
+    $(function () {
+        // 展示动画的元素
+        var $animater = $("#animater");
+
+        // 动画速度
+        var animate_speed = null;
+        $("#animate_speed").change(function(){
+            animate_speed = $(this).val();
+            if (!animate_speed) animate_speed = null;
+        })
+
+        // 动画效果
+        var animate_xg = null;
+        $("#animate_xg").change(function(){
+            animate_xg = $(this).val();
+            if(!animate_xg) animate_xg = null;
+        })
+
+        // 动画完成提醒
+        var animate_complete = null;
+        $("#animate_warn").change(function(){
+            animate_complete = $(this).val();
+            if(animate_complete == "true"){
+                animate_complete = function(){
+                    alert("动画完成");
+                }
+            }else {
+                animate_complete = null;
+            }
+        })
+
+        // 动画显示/隐藏
+        $("#btn_show1").click(function () {
+            if (!$animater.is(":hidden")) {
+                $animater.hide(animate_speed, animate_xg, animate_complete);
+            } else {
+                $animater.show(animate_speed, animate_xg, animate_complete);
+            }
+        });
+
+        // 显示/隐藏切换
+        $("#btn_toggle").click(function () {
+            $animater.toggle(animate_speed, animate_xg, animate_complete);
+        });
+
+        // 滑动动画
+        $("#btn_slide").click(function () {
+            if ($animater.is(":hidden")) {
+                $animater.slideDown(animate_speed,animate_xg,animate_complete);
+                $(this).text("上拉隐藏");
+            } else {
+                $animater.slideUp(animate_speed,animate_xg,animate_complete);
+                $(this).text("下拉显示");
+            }
+        });
+        $("#btn_slideToggle").click(function () {
+            $animater.slideToggle(animate_speed,animate_xg,animate_complete);
+        });
+
+        // 淡入淡出动画
+        $("#btn_fade").click(function () {
+            if ($animater.is(":hidden")) {
+                $animater.fadeIn(animate_speed,animate_xg,animate_complete);
+                $(this).text("淡入");
+            } else {
+                $animater.fadeOut(animate_speed,animate_xg,animate_complete);
+                $(this).text("淡出");
+            }
+        });
+        $("#btn_fadeSloggle").click(function () {
+            $animater.fadeToggle(animate_speed,animate_xg,animate_complete);
+        });
+        $("#btn_fadeTo").click(function () {
+            if ($animater.css("opacity") < 1) {
+                $animater.fadeTo(animate_speed,1,animate_xg,animate_complete);
+            } else {
+                $animater.fadeTo(animate_speed,0.5,animate_xg,animate_complete);
+            }
+        });
+
+        // 自定义动画
+        $("#btn_custom").click(function () {
+            $animater.animate({
+                width: 'toggle',
+                height: 'toggle',
+                opacity: 'toggle'
+            }, animate_speed,animate_xg,animate_complete);
+        })
+
+        // 控制动画执行
+        $("#btn_animateCtr").click(function () {
+            $animater
+                .animate({
+                    width: 100,
+                    height: 100,
+                    opacity: 0.5
+                }, animate_speed,animate_xg,animate_complete)
+                .stop(false, true);
+        })
+
+        // 延迟动画执行
+        $("#btn_delayAnimate").click(function () {
+            $animater
+                .delay(1000)
+                .animate({
+                    width: 100,
+                    height: 100,
+                    opacity: 0.5
+                }, animate_speed,animate_xg,animate_complete);
+        })
+
+        // 快速执行完动画并清空后续动画
+        $("#btn_finishAnimate").click(function () {
+            $animater
+                .animate({
+                    width: 100,
+                    height: 100,
+                    opacity: 0.5
+                }, animate_speed,animate_xg,animate_complete)
+                .animate({width: 300, height: 200, opacity: 1.0})
+                .finish();
+        })
+
+        // 开启/关闭所有动画
+        $("#btn_closeAnimate").click(function () {
+            if (jQuery.fx.off) {
+                jQuery.fx.off = false;
+                $(this).text("关闭所有动画");
+            } else {
+                jQuery.fx.off = true;
+                $(this).text("开启所有动画");
+            }
+        })
+
+    });
+</script>

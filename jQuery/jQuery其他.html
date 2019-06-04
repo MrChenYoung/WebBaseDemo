@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>jQuery其他</title>
+        <style>
+            button {
+                font-size: 14px;
+                padding: 3px;
+                margin: 5px;
+            }
+
+            span {
+                font-size: 12px;
+            }
+
+            ul li {
+                line-height: 20px;
+            }
+
+            .right {
+                width: 35%;
+                float: right;
+            }
+
+            .container-box {
+                width: 100%;
+                overflow: hidden;
+                position: fixed;
+                top: 60px;
+            }
+
+            .show-box {
+                width: 150px;
+                height: 150px;
+                line-height: 150px;
+                border: 1px dashed #ccc;
+                display: inline-block;
+                text-align: center;
+                font-size: 14px;
+                margin: 5px;
+                /* overflow: hidden; */
+            }
+
+            .box {
+                margin-left: 20px;
+            }
+
+            /* 完整语法格式 */
+            .full-syntax {
+                color: red;
+            }
+
+            /* 当前所用语法 */
+            .current-syntax {
+                color: blue;
+            }
+
+            /* 废弃版本 */
+            .abandoned-syntax {
+                color: green;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="right" class="right">
+            <div class="container-box">
+                <div class="show-box" id="show_box1">盒子1</div>
+                <br>
+                <div class="show-box">
+                    <ul>
+                        <li>无序列表第1项</li>
+                        <li>无序列表第2项</li>
+                        <li>无序列表第3项</li>
+                        <li>无序列表第4项</li>
+                        <li>无序列表第5项</li>
+                        <li>无序列表第6项</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <span class ="full-syntax">红色标记完整语法，蓝色标记当前示例所用语法，"[]"内部参数表示可选参数</span>
+        <h4>1. 多库共存</h4>
+        <div class="box">
+            
+            <div>
+                把变量$的控制权让渡给第一个实现它的库(方式一):
+                <span class="full-syntax">jQuery.noConflict([extreme])</span>
+                <button id="btn_noconflict1">让出$符号的控制</button>
+                <span class="current-syntax">jQuery.noConflict()</span>
+            </div>
+
+            <div>
+                    把变量$的控制权让渡给第一个实现它的库(方式二):
+                    <span class="full-syntax">$.noConflict([extreme])</span>
+                    <button id="btn_noconflict2">让出$符号的控制</button>
+                    <span class="current-syntax">$.noConflict()</span>
+                </div>
+                <div>
+                        用$给盒子1绑定点击事件:
+                        <button id="btn_add_click1">给盒子1绑定点击事件</button>
+                        <span class="current-syntax">$("#show_box1").click(fn)</span>
+                    </div>
+
+                    <div>
+                        在$让渡除去的情况下仍然用$给盒子1添加点击事件(闭包):
+                        <button id="btn_add_click2">给盒子1绑定点击事件</button>
+                        <span class="current-syntax">$("#show_box1").click(fn)</span>
+                    </div>
+            <div>
+                自定义变量名替换$:
+                <span class="full-syntax">$/jQuery.noConflict([extreme])</span>
+                <button id="btn_noconflict3">自定义变量名替换$</button>
+                <span class="current-syntax">jQuery.noConflict()</span>
+            </div>
+
+            <div>
+                用自定义的变量名给盒子绑定点击事件:
+                <button id="btn_add_click3">给盒子1绑定点击事件</button>
+                <span class="current-syntax">jq("#show_box1").click(fn)</span>
+            </div>
+        </div>
+
+        <h4>2. 数据缓存</h4>
+        <div class="box">
+            <div>
+                在元素上存放单个数据:
+                <span class="full-syntax">.data([key],[value])</span>
+                <button id="btn_set_data1">在盒子1上保存字段为name的数据</button>
+                <span class="current-syntax">.data(key,value)</span>
+            </div>
+
+            <div>
+                在元素上存放多个数据:
+                <span class="full-syntax">.data([key],[value])</span>
+                <button id="btn_set_data2">在盒子1上保存字段为name和age的数据</button>
+                <span class="current-syntax">.data({key:value, key:value, key:value...})</span>
+            </div>
+
+            <div>
+                获取元素上存放的所有数据:
+                <span class="full-syntax">.data([key],[value])</span>
+                <button id="btn_get_data1">获取盒子1上保存的所有数据</button>
+                <span class="current-syntax">.data()</span>
+            </div>
+
+            <div>
+                获取元素上存放的指定字段的数据:
+                <span class="full-syntax">.data([key],[value])</span>
+                <button id="btn_get_data2">获取盒子1上保存的字段为name的数据</button>
+                <span class="current-syntax">.data(key)</span>
+            </div>
+
+            <div>
+                移除元素上存放的所有数据:
+                <span class="full-syntax">.removeData([key/keyArray])</span>
+                <button id="btn_remove_data1">移除盒子1上存放的所有数据</button>
+                <span class="current-syntax">.removeData()</span>
+            </div>
+
+            <div>
+                移除元素上存放的单个字段数据方式一:
+                <span class="full-syntax">.removeData([key/keyArray])</span>
+                <button id="btn_remove_data2">移除盒子1上存放的字段为name的数据</button>
+                <span class="current-syntax">.removeData(key)</span>
+            </div>
+
+            <div>
+                移除元素上存放的单个字段数据方式二:
+                <span class="full-syntax">.removeData([key/keyArray])</span>
+                <button id="btn_remove_data3">移除盒子1上存放的字段为name的数据</button>
+                <span class="current-syntax">.removeData([key])</span>
+            </div>
+
+            <div>
+                移除元素上存放的多个字段数据方式一:
+                <span class="full-syntax">.removeData([key/keyArray])</span>
+                <button id="btn_remove_data4">移除盒子1上的name和age字段数据</button>
+                <span class="current-syntax">.removeData("key1 key2...")</span>
+            </div>
+            <div>
+                移除元素上存放的多个字段数据方式二:
+                <span class="full-syntax">.removeData([key/keyArray])</span>
+                <button id="btn_remove_data5">移除盒子1上的name和age字段数据</button>
+                <span class="current-syntax">.removeData([key1,key2...]")</span>
+            </div>
+        </div>
+
+        <h4>3. 遍历</h4>
+        <div class="box">
+            <h5>3.1 map函数</h5>
+            <div class="box">
+                    <div>
+                            map遍历无序列表(全局方式):
+                            <span class="full-syntax">$.map(array/obj, fn(value, index/key))</span>
+                            <button id="btn_map1">设置无序列表偶数项文字颜色</button>
+                            <span class="current-syntax">$.map(array, fn(value, index){})</span>
+                        </div>
+            
+                        <div>
+                            map遍历无序列表(非全局方式):
+                            <span class="full-syntax">array/obj.map(fn(index/key,value))</span>
+                            <button id="btn_map2">设置无序列表偶数项文字颜色</button>
+                            <span class="current-syntax">array.map(fn(index, value){})</span>
+                        </div>
+            </div>
+            
+            <h5>3.2 each函数</h5>
+            <div class="box">
+                    <div>
+                            each遍历无序列表(全局方式):
+                            <span class="full-syntax">$.each(array/obj, fn(index/key, value){})</span>
+                            <button id="btn_each1">设置无序列表偶数项文字颜色</button>
+                            <span class="current-syntax">$.each(array, fn(index, value){})</span>
+                        </div>
+            
+                        <div>
+                            each遍历无序列表(非全局方式):
+                            <span class="full-syntax">array/obj.map(fn(index/key,value){})</span>
+                            <button id="btn_each2">设置无序列表偶数项文字颜色</button>
+                            <span class="current-syntax">array.map(fn(index, value){})</span>
+                        </div>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="./jquery-3.4.1.min.js"></script>
+<script>
+    $(function () {
+
+        // 多库共存
+        fixConflict();
+        function fixConflict() {
+            // 让出$特殊字符的控制方式一
+            $("#btn_noconflict1").click(function () {
+                jQuery.noConflict();
+            })
+
+            // 让出jQuery关键字的控制
+            $("#btn_noconflict2").click(function () {
+                $.noConflict();
+            })
+
+            // 用$给盒子1绑定点击事件
+            $("#btn_add_click1").click(function(){
+                try {
+                    $("#show_box1").click(function(){
+                        alert("$变量可用,绑定点击事件成功");
+                    })
+                } catch (error) {
+                    // 出错
+                    alert("$变量已经不可用,绑定事件失败");
+                }
+            })
+
+            // 在$让渡除去的情况下仍然用$给盒子1添加点击事件
+            $("#btn_add_click2").click(function(){
+                (function($){
+                    $("#show_box1").click(function(){
+                        alert("$失效的情况下绑定的点击事件");
+                    })
+                })(jQuery);
+            })
+
+            // 自定义用来替换$的变量 
+            var jq = null;
+            $("#btn_noconflict3").click(function(){
+                jq = jQuery.noConflict();
+            })
+
+            // 用自定义的用来替换$的变量给盒子1绑定点击事件
+            $("#btn_add_click3").click(function(){
+                try {
+                    jq("#show_box1").click(function(){
+                        alert("jq变量可用,绑定点击事件成功");
+                    })
+                } catch (error) {
+                    // 出错
+                    alert("jq变量不可用,绑定事件失败");
+                }
+            })
+        }
+
+        // 数据缓存
+        dataCatch();
+        function dataCatch() {
+            // 在元素上存放单个数据
+            $("#btn_set_data1").click(function () {
+                $("#show_box1").data("name", "张三");
+            })
+
+            // 在元素上存放多个数据
+            $("#btn_set_data2").click(function () {
+                $("#show_box1").data({name: "张三", age: 20});
+            })
+
+            // 获取元素上存放的所有数据
+            $("#btn_get_data1").click(function () {
+                var $data = $("#show_box1").data();
+                alert(JSON.stringify($data));
+            })
+
+            // 获取元素上存放的指定字段的数据
+            $("#btn_get_data2").click(function () {
+                var $name = $("#show_box1").data("name");
+                alert($name);
+            })
+
+            // 移除元素上存放的所有数据
+            $("#btn_remove_data1").click(function () {
+                $("#show_box1").removeData();
+            })
+
+            // 移除元素上存放的单个字段数据方式一
+            $("#btn_remove_data2").click(function () {
+                $("#show_box1").removeData("name");
+            })
+
+            // 移除元素上存放的单个字段数据方式二
+            $("#btn_remove_data3").click(function () {
+                $("#show_box1").removeData(["name"]);
+            })
+
+            // 移除元素上存放的多个字段数据方式一
+            $("#btn_remove_data4").click(function () {
+                $("#show_box1").removeData("name age");
+            })
+
+            // 移除元素上存放的多个字段数据方式二
+            $("#btn_remove_data5").click(function () {
+                $("#show_box1").removeData(["name", "age"]);
+            })
+        }
+
+        // 遍历
+        enumeration();
+        function enumeration() {
+            // map函数遍历无序列表 全局方式
+            $("#btn_map1").click(function () {
+                var $lis = $("ul li");
+
+                // 全局方式遍历li
+                $.map($lis, function (value, index) {
+                    if (index % 2 != 0) {
+                        // 偶数项
+                        $(value).css("color", "blue");
+                    }
+                })
+            })
+
+            // map函数遍历无序列表  非全局方式
+            $("#btn_map2").click(function () {
+                var $lis = $("ul li");
+
+                // 全局方式遍历li
+                $lis.map(function (index, value) {
+                    if (index % 2 != 0) {
+                        // 偶数项
+                        $(value).css("color", "blue");
+                    }
+                })
+            })
+
+            // each函数遍历无序列表 全局方式
+            $("#btn_each1").click(function(){
+                var $lis = $("ul li");
+
+                // 全局方式遍历
+                $.each($lis, function(index, value){
+                    if (index%2 != 0) {
+                        $(value).css("color","blue");
+                    }
+                })
+            })
+
+            // each函数遍历无序列表 非全局方式
+            $("#btn_each2").click(function(){
+                var $lis = $("ul li");
+
+                // 全局方式遍历
+                $lis.each(function(index, value){
+                    if (index%2 != 0) {
+                        $(value).css("color","blue");
+                    }
+                })
+            }) 
+        }
+    })
+</script>

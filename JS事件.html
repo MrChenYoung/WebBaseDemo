@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JS事件</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+
+		button {
+			margin: 5px;
+			padding: 5px;
+		}
+
+		.l-margin10 {
+			margin-left: 10px;
+		}
+	</style>
+</head>
+<body>
+	<h1>1. JS常用事件</h1>
+
+	<h1>2. JS事件对象</h1>
+	<button id="btn_event" class="padding-5 margin-5">单击获取事件对象</button>
+</body>
+</html>
+<script type="text/javascript">
+	// 公用函数
+	function $(id){return document.getElementById(id);}
+
+	// 获取事件对象
+	var btn_event = $("btn_event");
+	btn_event.onclick = function(event){
+		// 兼容性写法 event:普通浏览器支持 window.event: ie678支持
+		var event = event || window.event;
+		alert(event);
+	}
+
+</script>

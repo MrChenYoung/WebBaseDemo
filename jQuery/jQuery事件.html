@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>jQuery事件</title>
+        <style>
+            * {
+                font-size: 16px;
+            }
+            button {
+                font-size: 14px;
+                padding: 3px;
+                margin: 5px;
+            }
+
+            span {
+                font-size: 14px;
+            }
+
+            .right {
+                width: 35%;
+                float: right;
+            }
+
+            .container-box {
+                width: 100%;
+                overflow: hidden;
+                position: fixed;
+                top: 60px;
+            }
+
+            .show-box {
+                width: 150px;
+                height: 150px;
+                border: 1px dashed #ccc;
+                display: inline-block;
+                text-align: center;
+                font-size: 14px;
+                margin: 5px;
+                overflow: hidden;
+            }
+
+            .lit-box {
+                width: 60px;
+                height: 50px;
+                line-height: 50px;
+            }
+
+            .box {
+                margin-left: 20px;
+            }
+
+            .dashed-border {
+                padding: 5px;
+                width: auto;
+                border: 1px dashed #ccc;
+            }
+
+            .margin-top20 {
+                margin-top: 20px;
+            }
+
+            .scroll-element {
+                width: 100px;
+                height: 100px;
+                border: 1px dashed #ccc;
+                overflow: auto;
+                padding: 5px;
+            }
+
+            .form {
+                width: 200px;
+                height: 100px;
+            }
+
+            .custom-parent-btn {
+                width: 500px;
+                height: 100px;
+                background-color: #eee;
+            }
+
+            .custom-child-btn {
+                width: 60px;
+                height: 30px;
+                background-color: #ccc;
+                margin: 40px 20px;
+                float: left;
+            }
+
+            .custom-btn {
+                font-size: 14px;
+                text-align: center;
+                line-height: 30px;
+                cursor: pointer;
+            }
+
+            .link {
+                width: 200px;
+                height: 20px;
+                margin-top: 20px;
+            }
+
+            /* 完整语法格式 */
+            .full-syntax {
+                color: red;
+            }
+
+            /* 当前所用语法 */
+            .current-syntax {
+                color: blue;
+            }
+
+            /* 废弃版本 */
+            .abandoned-syntax {
+                color: green;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="right" class="right">
+            <div class="container-box">
+                <div class="show-box" id="show_box1">盒子1</div>
+                <div class="show-box" id="show_box2">盒子2</div>
+                <div class="show-box" id="show_box3">盒子3
+                    <div class="show-box lit-box" id="lit_box">小盒子</div>
+                </div>
+                <br>
+                <input type="text" name="" id="input1" placeholder="输入框1" value="默认文字1">
+                <input type="text" name="" id="input2" placeholder="输入框2" value="默认文字2">
+                <br>
+                <select name="" id="select">
+                    <option value="北京">北京</option>
+                    <option value="上海">上海</option>
+                    <option value="天津">天津</option>
+                    <option value="重庆">重庆</option>
+                </select>
+                <div class="scroll-element margin-top20" id="scroll_element">
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                    <p>可滚动文字</p>
+                </div>
+                <textarea class="margin-top20" id="textarea" cols="30" rows="10">文本输入域文本输入域文本输入域文本输入域文本输入域文本输入域文本输入域
+                </textarea>
+                <div class="form" id="form">
+                    <form action="">
+                        <fieldset>
+                            <legend>表单</legend>
+                            <input type="submit">
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="custom-parent-btn custom-btn">父按钮
+                    <div class="custom-child-btn custom-btn">子按钮1</div>
+                    <div class="custom-child-btn custom-btn">子按钮2</div>
+                    <div class="custom-child-btn custom-btn">子按钮3</div>
+                    <div class="custom-child-btn custom-btn">子按钮4</div>
+                </div>
+
+                <div class="link">
+                    <a href="#">a标签(点击回到顶部)</a>
+                </div>
+
+            </div>
+        </div>
+
+        <span class ="full-syntax">红色标记完整语法，蓝色标记当前示例所用语法，"[]"内部参数表示可选参数</span>
+        <h4>1. 事件</h4>
+        <div class="box">
+            <div>
+                页面载入完成事件(只包含所有DOM载入完成,不包含图片等资源的加载):
+                <span class="full-syntax">.ready(fn)</span>
+                <button id="btn_ready_event" disabled="disabled">页面载入完成会自动提醒</button>
+                <span class="current-syntax">.ready(fn)</span>
+            </div>
+
+            <div>
+                获取焦点事件:
+                <span class="full-syntax">.focus([[data],fn])</span>
+                <button id="btn_focus_event">让第一个输入框自动获取焦点</button>
+                <span class="current-syntax">.focus()</span>
+            </div>
+
+            <div>
+                获取焦点事件(可以在父元素上检测子元素获取焦点的情况):
+                <span class="full-syntax">.focusin([data],fn)</span>
+                <button id="btn_focusin_event">第一个输入框获取焦点时提示</button>
+                <span class="current-syntax">.focusin(fn)</span>
+            </div>
+
+            <div>
+                失去焦点事件:
+                <span class="full-syntax">.blur([[data],fn])</span>
+                <button id="btn_blur_event">输入框失去焦点的时改变背景色</button>
+                <span class="current-syntax">.blur(fn)</span>
+            </div>
+
+            <div>
+                失去焦点事件(可以在父元素上检测子元素失去焦点的情况):
+                <span class="full-syntax">.focusout([data],fn)</span>
+                <button id="btn_focusout_event">输入框失去焦点的时改变背景色</button>
+                <span class="current-syntax">.focusout(fn)</span>
+            </div>
+
+            <div>
+                当元素的值发生改变时触发(仅适用于input,textarea和select):
+                <span class="full-syntax">.change([[data],fn])</span>
+                <button id="btn_change_event1">获取输入框内容改变后的文本</button>
+                <span class="current-syntax">.change(fn)</span>
+            </div>
+
+            <div>
+                select值发生改变触发:
+                <span class="full-syntax">.change([[data],fn])</span>
+                <button id="btn_change_event2">获取select内容改变后的文本</button>
+                <span class="current-syntax">.change(fn)</span>
+            </div>
+
+            <div>
+                单击事件:
+                <span class="full-syntax">.click([[data],fn])</span>
+                <button id="btn_click_event">单击按钮</button>
+                <span class="current-syntax">.click(fn)</span>
+            </div>
+
+            <div>
+                双击事件:
+                <span class="full-syntax">.dblclick([[data],fn])</span>
+                <button id="btn_dbclick_event">双击按钮</button>
+                <span class="current-syntax">.dblclick(fn)</span>
+            </div>
+
+            <div>
+                键盘或按钮按下事件(每插入一个字符，就会发生 keypress 事件):
+                <span class="full-syntax">.keypress([[data],fn])</span>
+                <button id="btn_keypress_event">监听输入框1输入过程中每个字符的keycode</button>
+                <span class="current-syntax">.keypress(fn)</span>
+            </div>
+
+            <div>
+                键盘或按钮按下事件:
+                <span class="full-syntax">.keydown([[data],fn])</span>
+                <button id="btn_keydown_event">监听输入框1输入过程中每个字符的keycode</button>
+                <span class="current-syntax">.keydown(fn)</span>
+            </div>
+
+            <div>
+                键盘或鼠标按键松开触发事件:
+                <span class="full-syntax">.keyup([[data],fn])</span>
+                <button id="btn_keyup_event">文档内任意位置键盘按键抬起获取输入字符的keycode</button>
+                <span class="current-syntax">.keyup(fn)</span>
+            </div>
+
+            <div>
+                鼠标按键按下事件:
+                <span class="full-syntax">.mousedown([[data],fn])</span>
+                <button id="btn_mousedown_event">鼠标按下触发按钮</button>
+                <span class="current-syntax">.mousedown(fn)</span>
+            </div>
+
+            <div>
+                鼠标按钮松开触发事件:
+                <span class="full-syntax">.mouseup([[data],fn])</span>
+                <button id="btn_mouseup_event">鼠标按键松开触发按钮</button>
+                <span class="current-syntax">.mouseup(fn)</span>
+            </div>
+
+            <div>
+                鼠标进入触发事件:
+                <span class="full-syntax">.mouseenter([[data],fn])</span>
+                <button id="btn_mouseenter_event">鼠标经过触发按钮</button>
+                <span class="current-syntax">.mouseenter(fn)</span>
+            </div>
+
+            <div>
+                鼠标离开触发事件:
+                <span class="full-syntax">.mouseleave([[data],fn])</span>
+                <button id="btn_mouseleave_event">鼠标离开触发按钮</button>
+                <span class="current-syntax">.mouseleave(fn)</span>
+            </div>
+
+            <div>
+                鼠标进入触发事件(经过子元素也会触发):
+                <span class="full-syntax">.mouseover([[data],fn])</span>
+                <button id="btn_mouseover_event">鼠标经过触发按钮</button>
+                <span class="current-syntax">.mouseover(fn)</span>
+            </div>
+
+            <div>
+                鼠标离开触发事件(离开子元素也会触发):
+                <span class="full-syntax">.mouseout([[data],fn])</span>
+                <button id="btn_mouseout_event">鼠标离开触发按钮</button>
+                <span class="current-syntax">.mouseout(fn)</span>
+            </div>
+
+            <div>
+                鼠标移动过程中触发事件:
+                <span class="full-syntax">.mousemove([[data],fn])</span>
+                <button id="btn_mousemove_event">捕获鼠标在文档中移动过程中的坐标:<span id="mouselocal"></span></button>
+                <span class="current-syntax">.mousemove(fn)</span>
+            </div>
+
+            <div>
+                浏览器窗口大小改变触发事件:
+                <span class="full-syntax">.resize([[data],fn])</span>
+                <button id="btn_resize_event">捕获浏览器窗口大小:<span id="window_size"></span></button>
+                <span class="current-syntax">.resize(fn)</span>
+            </div>
+
+            <div>
+                当页面或元素滚动触发事件:
+                <span class="full-syntax">.scroll([[data],fn])</span>
+                <button id="btn_scroll_event">可滚动元素滚动过程中获取已经卷去的高度:<span id="scroll_top"></span></button>
+                <span class="current-syntax">.scroll(fn)</span>
+            </div>
+
+            <div>
+                文本内容选中事件:
+                <span class="full-syntax">.select([[data],fn])</span>
+                <button id="btn_select_event1">设置文本输入域所有文本被选中</button>
+                <span class="current-syntax">.select()</span>
+            </div>
+
+            <div>
+                文本内容选中事件:
+                <span class="full-syntax">.select([[data],fn])</span>
+                <button id="btn_select_event2">文本输入域有内容被选中时提示</button>
+                <span class="current-syntax">.select(fn)</span>
+            </div>
+
+            <div>
+                表单提交事件:
+                <span class="full-syntax">.submit([[data],fn])</span>
+                <button id="btn_submit_event1">提交表单</button>
+                <span class="current-syntax">.submit()</span>
+            </div>
+
+            <div>
+                表单提交事件:
+                <span class="full-syntax">.submit([[data],fn])</span>
+                <button id="btn_submit_event2">表单提交时提醒</button>
+                <span class="current-syntax">.submit(fn)</span>
+            </div>
+        </div>
+
+        <h4>2. 事件切换</h4>
+        <div class="box">
+            <div>
+                鼠标进入/离开切换事件:
+                <span class="full-syntax">.horver([overfn],outfn)</span>
+                <button id="btn_horver_event">
+                    鼠标进入/离开提醒按钮:
+                    <span id="horver"></span>
+                </button>
+                <span class="current-syntax">.horver(overfn,outfn)</span>
+            </div>
+
+            <div>
+                显示/隐藏切换事件:
+                <span class="full-syntax">.toggle([[speed],[easing],[fn]],[switch])</span>
+                <button id="btn_toggle_event1">不带动画显示/隐藏盒子1</button>
+                <span class="current-syntax">.toggle()</span>
+            </div>
+
+            <div>
+                显示/隐藏切换事件:
+                <span class="full-syntax">.toggle([[speed],[easing],[fn]],[switch])</span>
+                <button id="btn_toggle_event2">不带动画显示/隐藏盒子1</button>
+                <span class="current-syntax">.toggle(switch)</span>
+            </div>
+
+            <div>
+                显示/隐藏切换事件:
+                <span class="full-syntax">.toggle([[speed],[easing],[fn]],[switch])</span>
+                <button id="btn_toggle_event3">带动画显示/隐藏盒子1</button>
+                <span class="current-syntax">.toggle(speed,fn)</span>
+            </div>
+        </div>
+
+        <h4>3. 事件绑定/解绑</h4>
+        <div class="box">
+            <div>
+                on绑定单个事件:
+                <span class="full-syntax">.on(events, [selector], [data], fn/false)</span>
+                <button id="btn_on1">绑定单击事件</button>
+                <span class="current-syntax">.on(events, fn)</span>
+            </div>
+
+            <div>
+                on绑定多个事件(共用处理函数):
+                <span class="full-syntax">.on(events, [selector], [data], fn/false)</span>
+                <button id="btn_on2">绑定单击和鼠标离开事件</button>
+                <span class="current-syntax">.on(events, fn)</span>
+            </div>
+
+            <div>
+                on绑定多个事件(有各自的处理函数):
+                <span class="full-syntax">.on(events, [selector], [data], fn/false)</span>
+                <button id="btn_on3">绑定单击和鼠标离开事件</button>
+                <span class="current-syntax">.on({event:fn, event:fn, event:fn...})</span>
+            </div>
+
+            <div>
+                on通过选择器绑定事件:
+                <span class="full-syntax">.on(events, [selector], [data], fn/false)</span>
+                <button id="btn_on4">给盒子1绑定单击事件</button>
+                <span class="current-syntax">.on(events, selector, fn)</span>
+            </div>
+
+            <div>
+                on取消默认事件行为方式一:
+                <span class="full-syntax">.on(events, [selector], [data], fn/false)</span>
+                <button id="btn_on5">阻止表单的提交</button>
+                <span class="current-syntax">.on(events,false)</span>
+            </div>
+
+            <div>
+                on取消默认事件行为方式二:
+                <span class="full-syntax">.on(events, [selector], [data], fn/false)</span>
+                <button id="btn_on6">阻止表单的提交</button>
+                <span class="current-syntax">.on(events,function(){return false})</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                bind绑定单个事件:
+                <span class="full-syntax">.bind(events, [data], fn/false)</span>
+                <button id="btn_bind1">绑定单击事件</button>
+                <span class="current-syntax">.bind(events, fn)</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                bind取消事件默认行为方式一:
+                <span class="full-syntax">.bind(events, [data], fn/false)</span>
+                <button id="btn_bind2">阻止表单的提交</button>
+                <span class="current-syntax">.bind(events, false)</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                bind取消事件默认行为方式二:
+                <span class="full-syntax">.bind(events, [data], fn/false)</span>
+                <button id="btn_bind3">阻止表单的提交</button>
+                <span class="current-syntax">.bind(events, function(){return false;})</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                bind同时绑定多事件(共用处理函数):
+                <span class="full-syntax">.bind(events, [data], fn/false)</span>
+                <button id="btn_bind4">同时绑定单击事件和鼠标离开事件</button>
+                <span class="current-syntax">.bind(events, fn)</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                bind同时绑定多事件(有各自的处理函数):
+                <span class="full-syntax">.bind(events, [data], fn/false)</span>
+                <button id="btn_bind5">同时绑定单击事件和鼠标离开事件</button>
+                <span class="current-syntax">.bind({event:fn, event:fn, event:fn...})</span>
+            </div>
+
+            <div>
+                one绑定一次性事件:
+                <span class="full-syntax">.one(events, [data], fn)</span>
+                <button id="btn_one">绑定一次性单击事件</button>
+                <span class="current-syntax">.one(events, fn)</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                delegate绑定单个事件:
+                <span class="full-syntax">.delegate(selector, [events], [data], fn)</span>
+                <button id="btn_delegate1">给盒子1绑定单击事件</button>
+                <span class="current-syntax">.delegate(selector, events, fn)</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                delegate绑定多个事件(共用处理函数):
+                <span class="full-syntax">.delegate(selector, [events], [data], fn)</span>
+                <button id="btn_delegate2">给盒子1绑定单击和鼠标移除事件</button>
+                <span class="current-syntax">.delegate(selector, events, fn)</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                delegate绑定多个事件(有各自的处理函数):
+                <span class="full-syntax">.delegate(selector, [events], [data], fn)</span>
+                <button id="btn_delegate3">给盒子1绑定单击和鼠标移除事件</button>
+                <span class="current-syntax">.delegate(selector, {event:fn, event:fn...})</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                delegate同时给父子盒子绑定事件(不会事件冒泡):
+                <span class="full-syntax">.delegate(selector, [events], [data], fn)</span>
+                <button id="btn_delegate4">给盒子3和小盒子绑定单击事件</button>
+                <span class="current-syntax">父盒子.delegate("", events, fn)</span>
+            </div>
+            <div>
+                off解绑全部事件:
+                <span class="full-syntax">.off([[events, [selector], [fn]], [eventObj]])</span>
+                <button id="btn_off1">解绑当前文档内所有事件</button>
+                <span class="current-syntax">.off()</span>
+            </div>
+
+            <div>
+                off解绑单个事件:
+                <span class="full-syntax">.off([[events, [selector], [fn]], [eventObj]])</span>
+                <button id="btn_off2">解绑文档内所有单击事件</button>
+                <span class="current-syntax">.off(events)</span>
+            </div>
+
+            <div>
+                off解绑多个事件:
+                <span class="full-syntax">.off([[events, [selector], [fn]], [eventObj]])</span>
+                <button id="btn_off3">解绑文档内所有的单击和鼠标离开事件</button>
+                <span class="current-syntax">.off(events)</span>
+            </div>
+
+            <div>
+                off解绑通过选择器添加的事件:
+                <span class="full-syntax">.off([[events, [selector], [fn]], [eventObj]])</span>
+                <button id="btn_off4">解绑给盒子1绑定的单击事件</button>
+                <span class="current-syntax">.off(events,selector)</span>
+            </div>
+
+            <div>
+                off解绑通过事件对象解绑事件:
+                <span class="full-syntax">.off([[events, [selector], [fn]], [eventObj]])</span>
+                <button id="btn_off5">给盒子1绑定一次性单击事件</button>
+                <span class="current-syntax">.off(events,selector)</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                unbind解绑全部事件:
+                <span class="full-syntax">.unbind([[events, [fn/false]], [eventObj]])</span>
+                <button id="btn_unbind1">解绑文档内所有事件</button>
+                <span class="current-syntax">.unbind()</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                unbind解绑单个事件:
+                <span class="full-syntax">.unbind([[events, [fn/false]], [eventObj]])</span>
+                <button id="btn_unbind2">解绑文档内所有单击事件</button>
+                <span class="current-syntax">.unbind(events)</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                unbind解绑多个事件:
+                <span class="full-syntax">.unbind([[events, [fn/false]], [eventObj]])</span>
+                <button id="btn_unbind3">解绑文档内所有单击事件和鼠标离开事件</button>
+                <span class="current-syntax">.unbind(events)</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                unbind通过事件对象解绑事件:
+                <span class="full-syntax">.unbind([[events, [fn/false]], [eventObj]])</span>
+                <button id="btn_unbind4">给盒子1添加一次性单击事件</button>
+                <span class="current-syntax">.unbind(eventObj)</span>
+            </div>
+
+            <div>
+                <span class="abandoned-syntax">3.0以后废弃</span>
+                undelegate解绑所有delegate绑定的事件:
+                <span class="full-syntax">.undelegate([[selector, [events], [fn]], [eventObj]])</span>
+                <button id="btn_undelegate1">解绑文档内所有delegate事件</button>
+                <span class="current-syntax">.undelegate()</span>
+            </div>
+
+            <div>
+                    <span class="abandoned-syntax">3.0以后废弃</span>
+                    undelegate解绑单个事件:
+                    <span class="full-syntax">.undelegate([[selector, [events], [fn]], [eventObj]])</span>
+                    <button id="btn_undelegate2">解绑盒子1通过delegate绑定的单击事件</button>
+                    <span class="current-syntax">.undelegate(selector,events)</span>
+                </div>
+
+                <div>
+                        <span class="abandoned-syntax">3.0以后废弃</span>
+                        undelegate解绑多个事件:
+                        <span class="full-syntax">.undelegate([[selector, [events], [fn]], [eventObj]])</span>
+                        <button id="btn_undelegate3">解绑盒子1通过delegate绑定的单击事件和鼠标移出事件</button>
+                        <span class="current-syntax">.undelegate(selector,events)</span>
+                    </div>
+
+                <div>
+                        <span class="abandoned-syntax">3.0以后废弃</span>
+                        undelegate通过事件对象解绑事件:
+                        <span class="full-syntax">.undelegate([[selector, [events], [fn]], [eventObj]])</span>
+                        <button id="btn_undelegate4">通过delegate给盒子1绑定一次性单击事件</button>
+                        <span class="current-syntax">.undelegate(eventObj)</span>
+                    </div>
+
+        </div>
+
+        <h4>4. 事件对象</h4>
+        <div class="box">
+            <div>
+                事件对象的目标元素:
+                <button id="btn_target">给父按钮和子按钮绑定单击事件(点击父按钮和子按钮查看target)</button>
+                <span>event.target</span>
+            </div>
+
+            <div>
+                事件触发时真正的目标元素:
+                <button id="btn_current_target">给父按钮和子按钮绑定单击事件(点击父按钮和子按钮查看curretnTarget)</button>
+                <span>event.currentTarget</span>
+            </div>
+
+            <div>
+                事件类型:
+                <button id="btn_type">给父按钮和子按钮绑定双击事件(双击父按钮和子按钮查看事件类型)</button>
+                <span>event.type</span>
+            </div>
+
+            <div>
+                区分键盘和鼠标的按键(推荐用event.which替换event.keyCode和event.charCode):
+                <button id="btn_whitch">给body绑定keydown事件(打开控制台查看捕获的按键)</button>
+                <span>event.which</span>
+            </div>
+
+            <div>
+                捕获事件触发时的时间戳:
+                <button id="btn_time">给父按钮和子按钮绑定单击事件(单击父按钮和子按钮查看事件触发时间戳)</button>
+                <span>event.timeStamp</span>
+            </div>
+
+            <div>
+                获取鼠标相对于文档的左边缘的位置:
+                <button id="btn_pagex">给父按钮和子按钮绑定单击事件(单击父按钮和子按钮查看鼠标距离文档左边缘的距离)</button>
+                <span>event.pageX</span>
+            </div>
+
+            <div>
+                获取鼠标相对于文档的上边缘的位置:
+                <button id="btn_pagey">给父按钮和子按钮绑定单击事件(单击父按钮和子按钮查看鼠标距离文档上边缘的距离)</button>
+                <span>event.pageY</span>
+            </div>
+
+            <div>
+                获取绑定事件时传递的数据:
+                <button id="btn_data">给父按钮和子按钮绑定单击事件(单击父按钮和子按钮查看事件绑定数据)</button>
+                <span>event.data</span>
+            </div>
+
+            <div>
+                阻止默认事件行为的触发:
+                <button id="btn_prevent_default1">阻止a标签的默认跳转行为(点击a标签查看效果)</button>
+                <span>event.preventDefault()</span>
+            </div>
+
+            <div>
+                查看是否阻止了默认事件行为的触发:
+                <button id="btn_prevent_default2">查看a标签的默认跳转行为是否被阻止(点击a标签查看效果)</button>
+                <span>event.isDefaultPrevented()
+                </span>
+            </div>
+
+            <div>
+                阻止事件冒泡(不会阻止后续绑定点击事件处理函数的执行):
+                <button id="btn_stop_propagation1">阻止子按钮事件冒泡到父按钮(点击子按钮查看)</button>
+                <span>event.stopPropagation()</span>
+            </div>
+
+            <div>
+                检查是否阻止了事件冒泡:
+                <button id="btn_stop_propagation2">检查子按钮事件是否冒泡到父按钮(点击子按钮查看)</button>
+                <span>event.isPropagationStopped()</span>
+            </div>
+
+            <div>
+                阻止事件冒泡(会阻止后续绑定点击事件处理函数的执行):
+                <button id="btn_stop_immediate_propagation1">阻止子按钮事件冒泡到父按钮(点击子按钮查看)</button>
+                <span>event.stopImmediatePropagation()</span>
+            </div>
+
+            <div>
+                给按钮添加后续单击事件处理:
+                <button id="btn_stop_immediate_propagation2">给按钮添加后续点击事件</button>
+            </div>
+
+            <div>
+                检测是否阻止事件冒泡并阻止后续点击事件处理函数的执行:
+                <button id="btn_stop_immediate_propagation3">检测是否阻止事件冒泡并阻止后续事件函数处理</button>
+                <span>event.isImmediatePropagationStopped()</span>
+            </div>
+
+        </div>
+    </body>
+</html>
+<script src="./jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // 事件
+        forEvent();
+        function forEvent() {
+            // 页面载入完成提醒
+            console.log("页面载入完成");
+
+            // 获取焦点事件
+            $("#btn_focus_event").click(function () {
+                // 设置输入框获取焦点
+                $("#input1").focus();
+            })
+
+            // 获取焦点事件,focusin事件跟focus事件区别在于，他可以在父元素上检测子元素获取焦点的情况
+            $("#btn_focusin_event").click(function () {
+                // 设置输入框获取焦点
+                $("#input1").focusin(function () {
+                    alert("第一个输入框获取了焦点");
+                });
+            })
+
+            // 失去焦点事件
+            $("#btn_blur_event").click(function () {
+                // 绑定blur事件
+                $("input").blur(function () {
+                    $(this).css("background-color", "red");
+                })
+            })
+
+            // 失去焦点事件 focusout事件跟blur事件区别在于，他可以在父元素上检测子元素失去焦点的情况
+            $("#btn_focusout_event").click(function () {
+                // 绑定focusout事件
+                $("input").focusout(function () {
+                    $(this).css("background-color", "red");
+                })
+            })
+
+            // 当元素的值发生改变触发
+            $("#btn_change_event1").click(function () {
+                // 给输入框绑定change事件
+                $("input").change(function () {
+                    alert("输入框内容:" + $(this).val());
+                })
+            })
+
+            // select值发生改变触发
+            $("#btn_change_event2").click(function () {
+                // 给select绑定change事件
+                $("#select").change(function () {
+                    alert("select选中:" + $(this).val());
+                })
+            })
+
+            // 单击事件
+            $("#btn_click_event").click(function () {
+                // 单击事件
+                alert("单击事件触发");
+            })
+
+            // 双击事件
+            $("#btn_dbclick_event").dblclick(function () {
+                alert("双击事件触发");
+            })
+
+            // 键盘按下事件 与 keydown 事件不同，每插入一个字符，就会发生 keypress 事件
+            $("#btn_keypress_event").click(function () {
+                $("#input1").keypress(function (event) {
+                    console.log("输入字符的keycode:" + event.keyCode);
+                })
+            })
+
+            // 键盘按下事件
+            $("#btn_keydown_event").click(function () {
+                $("#input1").keydown(function (event) {
+                    console.log("输入字符的keycode:" + event.keyCode);
+                })
+            })
+
+            // 键盘或鼠标按键松开触发事件
+            $("#btn_keyup_event").click(function () {
+                $(document).keyup(function (event) {
+                    console.log(event.keyCode);
+                })
+            })
+
+            // 鼠标按键按下事件
+            $("#btn_mousedown_event").mousedown(function () {
+                alert("鼠标按钮按下");
+            })
+
+            // 鼠标按键松开触发事件
+            $("#btn_mouseup_event").mouseup(function () {
+                alert("鼠标按键松开");
+            })
+
+            // 鼠标经过触发事件
+            $("#btn_mouseenter_event").mouseenter(function () {
+                alert("鼠标经过了");
+            })
+
+            // 鼠标离开触发事件
+            $("#btn_mouseleave_event").mouseleave(function () {
+                alert("鼠标离开了");
+            })
+
+            // 鼠标经过触发事件(经过子元素也会触发)
+            $("#btn_mouseover_event").mouseover(function () {
+                alert("鼠标经过");
+            })
+
+            // 鼠标离开触发事件(离开子元素也会触发)
+            $("#btn_mouseout_event").mouseout(function () {
+                alert("鼠标离开");
+            })
+
+            // 鼠标移动过程中触发事件
+            $("#btn_mousemove_event").click(function () {
+                $(document).mousemove(function (event) {
+                    $("#mouselocal").text(event.clientX + "x" + event.clientY);
+                })
+            })
+
+            // 浏览器窗口大小改变触发事件
+            $("#btn_resize_event").click(function () {
+                var $window_size = $("#window_size");
+                $window_size.text($(window).innerWidth() + "x" + $(window).innerHeight());
+
+                $(window).resize(function () {
+                    $window_size.text($(this).innerWidth() + "x" + $(this).innerHeight());
+                })
+            })
+
+            // 当页面或元素滚动时触发
+            $("#btn_scroll_event").click(function () {
+                var $scroll_element = $("#scroll_element");
+                var $scroll_top = $("#scroll_top");
+                $scroll_top.text($scroll_element.scrollTop());
+
+                $scroll_element.scroll(function () {
+                    $scroll_top.text($(this).scrollTop());
+                })
+            })
+
+            // 文本内容选中事件
+            $("#btn_select_event1").click(function () {
+                $("textarea").select();
+            })
+
+            // 文本内容选中事件
+            $("#btn_select_event2").click(function () {
+                $("textarea").select(function () {
+                    alert("有内容被选中");
+                })
+            })
+
+            // 提交表单
+            $("#btn_submit_event1").click(function () {
+                $("#form").submit();
+            })
+
+            // 表单提交时提醒
+            $("#btn_submit_event2").click(function () {
+                $("#form").submit(function () {
+                    alert("表单提交了");
+                });
+            })
+        }
+
+        // 事件切换
+        eventSwitch();
+        function eventSwitch() {
+            // 鼠标进入/离开切换事件
+            var $horver = $("#horver");
+            $("#btn_horver_event").hover(function () {
+                // 鼠标进入处理函数
+                $horver.text("进入");
+            }, function () {
+                // 鼠标离开处理函数
+                $horver.text("离开");
+            })
+
+            // 不带动画显示/隐藏切换方式一
+            $("#btn_toggle_event1").click(function () {
+                $("#show_box1").toggle();
+            })
+
+            // 不带动画显示/隐藏切换方式二
+            $("#btn_toggle_event2").click(function () {
+                // 如果现在是显示的就隐藏  如果现在是隐藏的就显示出来
+                var $show = $("#show_box1").is(":hidden")
+                    ? true
+                    : false;
+                $("#show_box1").toggle($show);
+            })
+
+            // 带动画显示/隐藏切换
+            $("#btn_toggle_event3").click(function () {
+                $("#show_box1").toggle("slow", function () {
+                    // 动画完成执行
+                    console.log(
+                        $(this).is(":hidden")
+                            ? "隐藏"
+                            : "显示"
+                    );
+                });
+            })
+        }
+
+        // 事件绑定/解绑
+        eventHandle()
+        function eventHandle() {
+            // on绑定的单个事件
+            $("#btn_on1").on("click", function () {
+                alert("on绑定的单击事件触发");
+            })
+
+            // on绑定多个事件 共用处理函数
+            $("#btn_on2").on("click mouseleave", function () {
+                // 单击事件处理函数
+                alert("on绑定的单击和鼠标离开事件");
+            })
+
+            // on绑定多个事件 有各自的处理函数
+            $("#btn_on3").on({
+                click: function () {
+                    alert("on绑定的多个事件中的单击事件");
+                },
+                mouseleave: function () {
+                    alert("on绑定的多个事件中的鼠标离开事件");
+                }
+            })
+
+            // on通过选择器给指定元素绑定事件
+            $("#btn_on4").click(function () {
+                $("body").on("click", "#show_box1", function () {
+                    alert("盒子1被点击");
+                })
+            })
+
+            // on取消默认事件行为 方式一
+            $("#btn_on5").click(function () {
+                $("#form").on("submit", false);
+            })
+
+            // on取消默认事件行为 方式二
+            $("#btn_on6").click(function () {
+                $("#form").on("submit", function () {
+                    return false;
+                });
+            })
+
+            // bind绑定单击事件
+            $("#btn_bind1").bind("click", function () {
+                alert("bind绑定的单击事件");
+            })
+
+            // bind取消事件默认行为方式一
+            $("#btn_bind2").click(function () {
+                $("#form").bind("submit", false);
+            })
+
+            // bind取消事件默认行为方式二
+            $("#btn_bind3").click(function () {
+                $("#form").bind("submit", function () {
+                    return false;
+                });
+            })
+
+            // bind同时绑定单击事件和鼠标离开事件 共用处理函数
+            $("#btn_bind4").bind("click mouseleave", function () {
+                alert("bind绑定的多事件");
+            })
+
+            // bind同时绑定单击事件和鼠标离开事件 有各自的处理函数
+            $("#btn_bind5").bind({
+                click: function () {
+                    alert("bind绑定的多事件中的单击事件");
+                },
+                mouseleave: function () {
+                    alert("bind绑定的多事件中的鼠标离开事件");
+                }
+            })
+
+            // one绑定一次性事件
+            $("#btn_one").one("click", function () {
+                alert("一次性单击事件");
+            })
+
+            // delegate绑定单个事件
+            $("#btn_delegate1").click(function () {
+                $("body").delegate("#show_box1", "click", function () {
+                    alert("delegate绑定的单击事件");
+                })
+            })
+
+            // delegate绑定多个事件 共用处理函数
+            $("#btn_delegate2").click(function () {
+                $("body").delegate("#show_box1", "click mouseleave", function () {
+                    alert("delegate绑定的多个事件");
+                })
+            })
+
+            // delegate绑定多个事件 有各自的处理函数
+            $("#btn_delegate3").click(function () {
+                $("body").delegate("#show_box1", {
+                    click: function () {
+                        alert("delegate绑定多事件中的单击事件");
+                    },
+                    mouseleave: function () {
+                        alert("delegate绑定多事件中的鼠标移出事件");
+                    }
+                })
+            })
+
+            // delegate同时给父子盒子绑定事件
+            $("#btn_delegate4").click(function () {
+                $("#show_box3").delegate("", "click", function () {
+                    alert("delegate同时给父子盒子绑定的单击事件");
+                })
+            })
+
+            // 解绑所有事件
+            $("#btn_off1").click(function () {
+                $("*").off();
+            })
+
+            // 解绑文档内所有单击事件
+            $("#btn_off2").click(function () {
+                $("*").off("click")
+            })
+
+            // 解绑文档内所有的单击和鼠标离开事件
+            $("#btn_off3").click(function () {
+                $("*").off("click mouseleave");
+            })
+
+            // 解绑on给盒子1绑定的单击事件
+            $("#btn_off4").click(function () {
+                $("body").off("click", "#show_box1");
+            })
+
+            // off解绑通过事件对象解绑事件
+            $("#btn_off5").click(function () {
+                $("#show_box1").click(function (event) {
+                    alert("off通过事件对象解绑事件");
+                    $(this).off(event);
+                })
+            })
+
+            // unbind解绑所有事件
+            $("#btn_unbind1").click(function () {
+                $("*").unbind();
+            })
+
+            // unbind解绑所有的单击事件
+            $("#btn_unbind2").click(function () {
+                $("*").unbind("click");
+            })
+
+            // unbind解绑所有的单击事件和鼠标离开事件
+            $("#btn_unbind3").click(function () {
+                $("*").unbind("click mouseleave");
+            })
+
+            // unbind解绑事件对象对应的事件
+            $("#btn_unbind4").click(function () {
+                $("#show_box1").click(function (event) {
+                    alert("盒子1一次性单击事件");
+                    $(this).unbind(event);
+                })
+            })
+
+            // undelegate解绑所有事件
+            $("#btn_undelegate1").click(function(){
+                $("*").undelegate();
+            })
+
+            // undelegate解绑盒子1通过delegate绑定的单击事件
+            $("#btn_undelegate2").click(function(){
+                $("body").undelegate("#show_box1","click");
+            })
+
+            // undelegate解绑盒子1通过delegate绑定的单击事件和鼠标移出事件
+            $("#btn_undelegate3").click(function(){
+                $("body").undelegate("#show_box1","click mouseleave");
+            })
+
+            // undelegate通过事件对象解绑事件
+            $("#btn_undelegate4").click(function(){
+                $("body").delegate("#show_box1","click",function(event){
+                    alert("delegate绑定的一次性单击事件");
+                    $(this).undelegate(event);
+                })
+            })
+
+        }
+
+        // 事件对象
+        eventObj()
+        function eventObj() {
+            // 事件对象的目标元素
+            $("#btn_target").click(function () {
+
+                $(".custom-btn").click(function (event) {
+                    var $target = $(event.target);
+                    alert("event.target的文本内容:" + $target.text());
+                })
+            })
+
+            // 事件触发时真正的目标元素
+            $("#btn_current_target").click(function () {
+
+                $(".custom-btn").click(function (event) {
+                    var $currentTarget = $(event.currentTarget);
+                    alert("event.currentTarget的文本内容:" + $currentTarget.text());
+                })
+            })
+
+            // 事件类型
+            $("#btn_type").click(function () {
+                $(".custom-btn").dblclick(function (event) {
+                    alert("当前事件类型是:" + event.type);
+                })
+            })
+
+            // 区分键盘和鼠标的按键
+            $("#btn_whitch").click(function () {
+                $("body").keydown(function (event) {
+                    console.log("which:" + event.which);
+                    console.log("keycode:" + event.keyCode);
+                    console.log("chacode:" + event.charCode);
+                })
+            })
+
+            // 捕获事件触发时的时间戳
+            $("#btn_time").click(function () {
+                $(".custom-btn").click(function (event) {
+                    alert("事件触发时间戳:" + event.timeStamp);
+                })
+            })
+
+            // 获取鼠标相对于文档的左边缘的位置
+            $("#btn_pagex").click(function () {
+                $(".custom-btn").click(function (event) {
+                    alert("鼠标距离文档左边缘的距离:" + event.pageX);
+                })
+            })
+
+            // 获取鼠标相对于文档的上边缘的位置
+            $("#btn_pagey").click(function () {
+                $(".custom-btn").click(function (event) {
+                    alert("鼠标距离文档上边缘的距离:" + event.pageY);
+                })
+            })
+
+            // 获取绑定事件时传递的数据
+            $("#btn_data").click(function () {
+                $(".custom-btn").on("click", {
+                    name: "张三"
+                }, function (event) {
+                    alert("单击事件绑定的数据:" + JSON.stringify(event.data));
+                })
+            })
+
+            // 阻止默认事件行为的触发
+            $("#btn_prevent_default1").click(function () {
+                $("a").click(function (event) {
+                    event.preventDefault();
+                })
+            })
+
+            // 查看是否阻止了默认事件行为的触发
+            $("#btn_prevent_default2").click(function () {
+                $("a").click(function (event) {
+                    event.preventDefault();
+
+                    var res;
+                    if (event.isDefaultPrevented()) {
+                        // 已经被阻止
+                        res = "默认行为已被阻止";
+                    } else {
+                        // 没有被阻止
+                        res = "默认行为没有被阻止";
+                    }
+
+                    alert(res);
+                })
+            })
+
+            // 阻止事件冒泡
+            $("#btn_stop_propagation1").click(function () {
+                $(".custom-btn").click(function (event) {
+                    // 阻止事件冒泡
+                    event.stopPropagation();
+                    alert("event.currentTarget的文本内容:" + $(event.currentTarget).text());
+                })
+            })
+
+            // 检查是否阻止了事件冒泡
+            $("#btn_stop_propagation2").click(function () {
+                $(".custom-btn").click(function (event) {
+                    // 阻止事件冒泡
+                    event.stopPropagation();
+                    alert(
+                        event.isPropagationStopped()
+                            ? "事件冒泡已被阻止"
+                            : "事件冒泡没有被阻止"
+                    );
+                })
+            })
+
+            // 阻止事件冒泡并终止剩余处理函数的处理
+            $("#btn_stop_immediate_propagation1").click(function () {
+                // 绑定第一个点击事件
+                $(".custom-btn").click(function (event) {
+                    // 阻止事件冒泡
+                    event.stopImmediatePropagation();
+                    alert("已经阻止事件冒泡和后续点击事件的执行");
+                })
+            })
+
+            $("#btn_stop_immediate_propagation2").click(function () {
+                // 绑定第二个点击事件
+                $(".custom-btn").click(function (event) {
+                    alert("绑定的后续点击事件");
+                })
+            })
+
+            // 检测是否阻止事件冒泡并阻止后续点击事件处理函数的执行
+            $("#btn_stop_immediate_propagation3").click(function () {
+                $(".custom-btn").click(function (event) {
+                    // 阻止事件冒泡
+                    event.stopImmediatePropagation();
+                    alert(
+                        event.isImmediatePropagationStopped()
+                            ? "已被阻止"
+                            : "没有被阻止"
+                    );
+                })
+            })
+        }
+    })
+</script>

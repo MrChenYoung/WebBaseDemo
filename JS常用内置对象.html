@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JS常用内置对象</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		button {
+			margin: 5px;
+			padding: 5px;
+		}
+		.l-margin10 {
+			margin-left: 10px;
+		}
+		.b-margin5 {
+			margin-bottom: 5px;
+		}
+		.sj2em {
+			text-indent: 2em;
+		}
+
+		#time {
+			width: 40px;
+			height: 20px;
+			border: 1px  solid #ccc;
+			text-align: center;
+			display: inline-block;
+		}
+
+		.element-box {
+			width: 100px;
+			height: 150px;
+			border: 2px solid red;
+			padding-left: 10px;
+			position: relative;
+		}
+		.inner-box {
+			width: 50px;
+			height: 60px;
+			background-color: blue;
+			margin: 5px;
+		}
+	</style>
+</head>
+<body>
+	<h1>1. window窗口对象</h1>
+	<div class="l-margin10">
+		<h3>1.1 提示信息相关函数</h3>
+		<input class="b-margin5" type="text" placeholder="请输入提示内容" value="提示信息" id="tip_msg"> <br>
+		<button id="alert_btn">alert提示框</button>
+		<button id="confirm_btn">confirm提示框</button>
+		<button id="prompt_btn">prompt提示框</button>
+
+		<h3>1.2 计时器</h3>
+		<span>当前计时:</span><span id="time">0</span>
+		<button id="start_timer">开始计时</button>
+		<button id="clear_timer">停止计时</button>
+
+		<h3>1.3 screen属性</h3>
+		<button id="btn_screen_width">获取屏幕宽(screen.width)</button>
+		<button id="btn_screen_height">获取屏幕高(screen.height)</button>
+
+		<h3>1.4 获取文档内选中的内容</h3>
+		<button id="btn_selection">获取文档内选中的内容</button>
+	</div>
+
+	<hr>
+	<h1>2. document文档对象</h1>
+	<div class="l-margin10">
+		<h2>2.1 文本输出</h2>
+		<input class="b-margin5" type="text" placeholder="请输入输出内容" value="输出信息" id="output_msg"> <br>
+		<button id="document_write">write输出</button>
+
+		<h2>2.2 访问HTML结构</h2>
+		<button id="btn_title">获取文档标题(title属性)</button>
+		<button id="btn_set_title">设置文档标题为自定义标题</button>
+		<button id="btn_head">获取文档head标签内容</button>
+		<button id="btn_body">获取文档的body标签内容</button>
+		<button id="btn_html">获取文档的html标签内容</button>
+		<button id="btn_DTD">文档是否声明了DTD</button>
+	</div>
+
+	<hr>
+	<h1>3. console控制台对象</h1>
+	<div class="l-margin10">
+		<input class="b-margin5" type="text" placeholder="请输入提示内容" value="提示信息" id="c_tip_msg"><br>
+		<button id="c_log_btn">console.log输出</button>
+		<button id="c_warn_btn">console.warn输出</button>
+		<button id="c_error_btn">console.error输出</button>
+	</div>
+
+	<hr>
+	<h1>4. Element节点对象</h1>
+	<div class="l-margin10">
+		<h2>4.1 offset家族属性</h2>
+		<div class="element-box" id="element_box">
+			<div class="inner-box" id="inner_box"></div>
+		</div>
+		<button id="get_width">获取宽(offsetWidth)</button>
+		<button id="get_height">获取高(offsetHeight)</button>
+		<button id="btn_width">获取宽(style.width)</button>
+		<button id="btn_height">获取高(style.height)</button>
+		<button id="btn_left">获取左边距离(offsetLeft)</button>
+		<button id="btn_right">获取右边距离(offsetTop)</button>
+		<button id="btn_parent">获取带定位的父级盒子(offsetParent)</button>
+	</div>
+
+	<hr>
+	<h1>5. Event事件对象</h1>
+	<div class="l-margin10">
+		<button id="btn_pageX">获取光标横坐标(pageX)</button>
+		<button id="btn_pageY">获取光标纵坐标(pageY)</button> 
+		<button id="btn_clientX">获取光标横坐标(clientX)</button>
+		<button id="btn_clientY">获取光标纵坐标(clientY)</button>
+		<button id="btn_screenX">获取光标横坐标(screenX)</button>
+		<button id="btn_screenY">获取光标纵坐标(screenY)</button>
+	</div>
+</body>
+<script type="text/javascript">
+	// 公用函数
+	function $(id){return document.getElementById(id);}
+
+	// window对象
+	// 提示信息
+	var tip_msg = $("tip_msg");
+	$("alert_btn").onclick = function(){
+		alert(tip_msg.value);
+	}
+	$("confirm_btn").onclick = function(){
+		var result = confirm(tip_msg.value);
+		if (result) {
+			alert("点击了确定按钮");
+		}else {
+			alert("点击了取消按钮");
+		}
+	}
+	$("prompt_btn").onclick = function(){
+		var result = prompt(tip_msg.value,"默认输入文字");
+		if (result == null) {
+			alert("点击了取消按钮");
+		}else {
+			alert("用户输入了" + result);
+		}
+	}
+	var btn_screen_width = $("btn_screen_width");
+	var btn_screen_height = $("btn_screen_height");
+	btn_screen_width.onclick = function(){
+		alert(window.screen.width);
+	}
+	btn_screen_height.onclick = function(){
+		alert(window.screen.height);
+	}
+	var btn_selection = $("btn_selection");
+	btn_selection.onclick = function(){
+		var text;
+		if (window.getSelection) {
+			text = window.getSelection().toString();
+		}else {
+			text = document.selection.createRange().text;
+		}
+		alert(text);
+	}
+
+	// 计时器
+	var time = $("time");
+	var count = 0;
+	var timer = null;
+	$("start_timer").onclick = function(){
+		this.disabled = true;
+		$("clear_timer").disabled = false;
+		timer = setInterval(function(){
+			count++;
+			time.innerHTML = count;
+		},1000);
+	}
+	$("clear_timer").onclick = function(){
+		this.disabled = true;
+		$("start_timer").disabled = false;
+		clearInterval(timer);
+	}
+
+	// document对象
+	var output_msg = $("output_msg");
+	$("document_write").onclick = function(){
+		document.write(output_msg.value)
+	}
+	var btn_title = $("btn_title");
+	var btn_set_title = $("btn_set_title");
+	var btn_head = $("btn_head");
+	var btn_body = $("btn_body");
+	var btn_html = $("btn_html");
+	var btn_DTD = $("btn_DTD");
+	btn_title.onclick = function(){
+		alert(document.title);
+	}
+	btn_set_title.onclick = function(){
+		document.title = "自定义标题";
+	}
+	btn_head.onclick = function(){
+		alert(document.head);
+	}
+	btn_body.onclick = function(){
+		alert(document.body);
+	}
+	btn_html.onclick = function(){
+		alert(document.documentElement);
+	}
+	btn_DTD.onclick = function(){
+		if (document.compatMode == "BackCompat") {
+			alert(false);
+		}else if (document.compatMode == "CSS1Compat") {
+			alert(true);
+		}else {
+			alert("其他");
+		}
+		
+	}
+
+	// console对象
+	var console_msg = $("c_tip_msg")
+		$("c_log_btn").onclick = function(){
+		console.log(console_msg.value);
+	}
+	$("c_warn_btn").onclick = function(){
+		console.warn(console_msg.value);
+	}
+	$("c_error_btn").onclick = function(){
+		console.error(console_msg.value);
+	}
+
+	// Element对象
+	var element_box = $("element_box");
+	var inner_box = $("inner_box");
+	var get_width = $("get_width");
+	var get_heigth = $("get_height");
+	var btn_width = $("btn_width");
+	var btn_height = $("btn_height");
+	var btn_left = $("btn_left");
+	var btn_right = $("btn_right");
+	var btn_parent = $("btn_parent");
+
+	get_width.onclick = function(){
+		alert(element_box.offsetWidth);
+	}
+	get_height.onclick = function(){
+		alert(element_box.offsetHeight);
+	}
+	btn_width.onclick = function(){
+		alert(element_box.style.width);
+	}
+	btn_height.onclick = function(){
+		alert(element_box.style.height);
+	}
+	btn_left.onclick = function(){
+		alert(inner_box.offsetLeft);
+	}
+	btn_right.onclick = function(){
+		alert(inner_box.offsetTop);
+	}
+	btn_parent.onclick = function(){
+		alert(inner_box.offsetParent);
+	}
+
+	// 事件对象
+	var btn_pageX = $("btn_pageX");
+	var btn_pageY = $("btn_pageY");
+	var btn_clientX = $("btn_clientX");
+	var btn_clientY = $("btn_clientY");
+	var btn_screenX = $("btn_screenX");
+	var btn_screenY = $("btn_screenY");
+	btn_pageX.onclick = function(event){
+		var event = event || window.event;
+		alert(event.pageX);
+	}
+	btn_pageY.onclick = function(event){
+		var event = event || window.event;
+		alert(event.pageY);
+	}
+	btn_clientX.onclick = function(event){
+		var event = event || window.event;
+		alert(event.clientX);
+	}
+	btn_clientY.onclick = function(event){
+		var event = event || window.event;
+		alert(event.clientY);
+	}
+	btn_screenX.onclick = function(event){
+		var event = event || window.event;
+		alert(event.screenX);
+	}
+	btn_screenY.onclick = function(event){
+		var event = event || window.event;
+		alert(event.screenY);
+	}
+</script>
+</html>

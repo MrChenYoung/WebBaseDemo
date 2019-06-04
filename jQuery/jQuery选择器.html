@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>jQuery选择器</title>
+        <style>
+            button {
+                font-size: 14px;
+                padding: 3px;
+                margin: 5px;
+            }
+
+            span {
+                font-size: 12px;
+            }
+
+            .right {
+                width: 35%;
+                float: right;
+            }
+
+            .container-box {
+                width: 100%;
+                overflow: hidden;
+                position: fixed;
+                top: 200px;
+            }
+
+            .show-box {
+                width: 150px;
+                height: 150px;
+                border: 1px dashed #ccc;
+                display: inline-block;
+                text-align: center;
+                font-size: 14px;
+                margin: 5px;
+                overflow: hidden;
+            }
+
+            .lit-box {
+                width: 50px;
+                height: 50px;
+                margin-top: 30px;
+                display: block;
+            }
+
+            .box {
+                margin-left: 20px;
+            }
+
+            .margin-top20 {
+                margin-top: 20px;
+            }
+            .margin-left10 {
+                margin-left: 10px;
+            }
+
+            /* 完整语法格式 */
+            .full-syntax {
+                color: red;
+            }
+
+            /* 当前所用语法 */
+            .current-syntax {
+                color: blue;
+            }
+
+            /* 废弃版本 */
+            .abandoned-syntax {
+                color: green;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="right" class="right">
+            <div class="container-box">
+                <div class="show-box" id="show_box">盒子<br>(class:show-box
+                    <br>
+                    id：show_box)
+                    <div class="show-box lit-box">小盒子</div>
+                </div>
+                <div class="show-box">
+                    <p class="param1">段落一</p>
+                    <p class="param2">段落二</p>
+                </div>
+                <br>
+                <div class="show-box">
+                    <ul>
+                        <li>无序列表第一项</li>
+                        <li>无序列表第二项</li>
+                        <li class="li-third">无序列表第三项</li>
+                        <li>无序列表第四项</li>
+                        <li>无序列表第五项</li>
+                        <li class="li-six">无序列表第六项</li>
+                    </ul>
+                </div>
+
+                <div class="show-box">
+                    <ul>
+                        <li>无序列表2第一项</li>
+                        <li>无序列表2第二项</li>
+                        <li class="li-third">无序列表2第三项</li>
+                        <li>无序列表2第四项</li>
+                        <li>无序列表2第五项</li>
+                        <li class="li-six">无序列表2第六项</li>
+                    </ul>
+                </div>
+                <div class="show-box">
+                    <ul>
+                        <li>无序列表3第一项</li>
+                    </ul>
+                </div>
+
+                <div class="margin-top20">
+                    <a href="javascript;:">我是a标签</a>
+                </div>
+
+                <div class="margin-top20">
+                    <input type="text" class="input1" name="username" placeholder="请输入用户名">
+                    <input type="text" class="input2" name="password" placeholder="请输入密码">
+                </div>
+                <div class="show-box" style="display:none;">隐藏盒子</div>
+            </div>
+        </div>
+
+        <span class ="full-syntax">红色标记完整语法，蓝色标记当前示例所用语法，"[]"内部参数表示可选参数</span>
+        <h4>1. 基础选择器</h4>
+        <div class="box">
+            <div>
+                id选择器:
+                <span class="full-syntax">$("#id")</span> 
+                <button id="btn_id_selector">用id选择器设置盒子背景色</button>
+                <span class="current-syntax">$("#show_box")</span>
+            </div>
+            <div>
+                标签选择器:
+                <span class="full-syntax">$(elementName)</span>
+                <button id="btn_element_selector">用标签选择器去掉a标签文字下划线</button>
+                <span class="current-syntax">$("a")</span>
+            </div>
+            <div>
+                类选择器:
+                <span class="full-syntax">$(".class")</span>
+                <button id="btn_class_selector">用类选择器设置盒子文字颜色</button>
+                <span class="current-syntax">$(".show-box")</span>
+            </div>
+            <div>
+                通配符选择器:
+                <span class="full-syntax">$("*")</span>
+                <button id="btn_general_selector">用通配符选择器统计页面元素个数</button>
+                <span class="current-syntax">$("*")</span>
+            </div>
+            <div>
+                并集选择器:
+                <span class="full-syntax">$("selector1,selector2,selector3...")</span>
+                <button id="btn_union_selector">用并集选择器同时设置盒子和a标签的文字颜色</button>
+                <span class="current-syntax">$(".show-box,a")</span>
+            </div>
+        </div>
+
+        <h4>2. 层级选择器</h4>
+        <div class="box">
+            <div>
+                后代选择器:
+                <span class ="full-syntax">$("selector1 selector2")</span>
+                <button id="btn_hd_selector">用后代选择器设置小盒子背景色</button>
+                <span class ="current-syntax">$(".show-box div")</span>
+            </div>
+            <div>
+                子代选择器:
+                <span class ="full-syntax">$("selector1>selector2")</span>
+                <button id="btn_child_selector">用后代选择器设置小盒子文字颜色</button>
+                <span class ="current-syntax">$(".show-box>div")</span>
+            </div>
+            <div>
+                紧邻选择器:
+                <span class ="full-syntax">$("selector1+selector2")</span>
+                <button id="btn_next_selector">紧邻选择器设置段落二文字颜色</button>
+                <span class ="current-syntax">$(".param1+.param2")</span>
+            </div>
+            <div>
+                选择后面所有的兄弟元素:
+                <span class ="full-syntax">$("selector1~selector2")</span>
+                <button id="btn_after_brother_selector">设置无序列表第三项后面所有项的文字颜色</button>
+                <span class ="current-syntax">$(".li-third ~ li")</span>
+            </div>
+        </div>
+
+        <h4>3. 过滤选择器</h4>
+        <h5 class="margin-left10">3.1 基本过滤选择器</h5>
+        <div class="box">
+            <div>
+                匹配第一个元素:
+                <span class ="full-syntax">$("selector:first")</span>
+                <button id="btn_first_selector">设置无序列表第一项文字颜色</button>
+                <span class ="current-syntax">$("li:first")</span>
+            </div>
+
+            <div>
+                    匹配最后一个元素:
+                    <span class ="full-syntax">$("selector:last")</span>
+                    <button id="btn_last_selector">设置无序列表最后一项文字颜色</button>
+                    <span class ="current-syntax">$("li:last")</span>
+                </div>
+
+            <div>
+                匹配偶数项选择器,索引值从0开始:
+                <span class ="full-syntax">$("selector:even")</span>
+                <button id="btn_even_selector">设置无序列表偶数项文字颜色</button>
+                <span class ="current-syntax">$("li:even")</span>
+            </div>
+
+            <div>
+                匹配奇数项选择器,索引值从0开始:
+                <span class ="full-syntax">$("selector:odd")</span>
+                <button id="btn_odd_selector">设置无序列表奇数项文字颜色</button>
+                <span class ="current-syntax">$("li:odd")</span>
+            </div>
+
+            <div>
+                匹配指定索引的元素:
+                <span class ="full-syntax">$("selector:eq(index)")</span>
+                <button id="btn_eq_selector">设置无序列表第四项文字颜色</button>
+                <span class ="current-syntax">$("li:eq(3)")</span>
+            </div>
+
+            <div>
+                    匹配所有去除与给定选择器的元素:
+                    <span class ="full-syntax">$("selector1:not(selector2)")</span>
+                    <button id="btn_not_selector">设置无序列表除去第三项的文字颜色</button>
+                    <span class ="current-syntax">$("li:not(.li-third)")</span>
+                </div>
+
+            <div>
+                匹配大于给定索引的元素:
+                <span class ="full-syntax">$("selector:gt(index)")</span>
+                <button id="btn_gt_selector">设置无序列表大于第二项的文字颜色</button>
+                <span class ="current-syntax">$("li:gt(1)")</span>
+            </div>
+
+            <div>
+                匹配小于给定索引的元素(:lt(index)):
+                <span class ="full-syntax">$("selector:lt(index)")</span>
+                <button id="btn_lt_selector">设置无序列表小于第四项的文字颜色</button>
+                <span class ="current-syntax">$("li:lt(3)")</span>
+            </div>
+
+            <div>
+                匹配标题元素:
+                <span class ="full-syntax">$("selector:header")</span>
+                <button id="btn_header_selector">设置所有标题标签的文字颜色</button>
+                <span class ="current-syntax">$(":header")</span>
+            </div>
+
+            <div>
+                匹配所有正在执行动画的元素:
+                <span class ="full-syntax">$("selector:animated")</span>
+                <button id="btn_animated_selector">所有没有执行动画的元素执行一个动画</button>
+                <span class ="current-syntax">$(":not(:animated)")</span>
+            </div>
+
+            <div>
+                匹配当前获得焦点的元素:
+                <span class ="full-syntax">$("selector:focus")</span>
+                <button id="btn_focus_selector">设置当前选中的输入框背景色</button>
+                <span class ="current-syntax">$("input:focus")</span>
+            </div>
+
+            <div>
+                匹配文档的根元素:
+                <span class ="full-syntax">$("selector:root")</span>
+                <button id="btn_root_selector">设置当前文档的根元素背景色</button>
+                <span class ="current-syntax">$(":root")</span>
+            </div>
+        </div>
+
+        <h5 class="margin-left10">3.2 内容过滤选择器</h5>
+        <div class="box">
+            <div>
+                匹配包含给定文本的元素():
+                <span class ="full-syntax">$("selector:contains(text)")</span>
+                <button id="btn_contains_selector">设置内容包含盒子的背景色</button>
+                <span class ="current-syntax">$("div:contains(盒子)")</span>
+            </div>
+
+            <div>
+                匹配所有不包含子元素或者文本的空元素:
+                <span class ="full-syntax">$("selector:empty")</span>
+                <button id="btn_empty_selector">设置空元素的背景色</button>
+                <span class ="current-syntax">$(":empty")</span>
+            </div>
+
+            <div>
+                匹配含有选择器所匹配的元素的元素:
+                <span class ="full-syntax">$("selector1:has(selector2)")</span>
+                <button id="btn_has_selector">设置小盒子的背景色</button>
+                <span class ="current-syntax">$("div:has(p)")</span>
+            </div>
+
+            <div>
+                匹配含有子元素或者文本的元素:
+                <span class ="full-syntax">$("selector:parent")</span>
+                <button id="btn_parent_selector">设置含有子元素或者文本的元素背景色</button>
+                <span class ="current-syntax">$(".show-box:parent")</span>
+            </div>
+        </div>
+
+        <h5 class="margin-left10">3.3 可见性过滤选择器</h5>
+        <div class="box">
+            <div>
+                匹配所有不可见元素，或者type为hidden的元素:
+                <span class ="full-syntax">$("selector:hidden")</span>
+                <button id="btn_hidden_selector">显示隐藏的元素</button>
+                <span class ="current-syntax">$("div:hidden")</span>
+            </div>
+
+            <div>
+                匹配所有的可见元素:
+                <span class ="full-syntax">$("selector:visible")</span>
+                <button id="btn_visible_selector">设置显示的输入框背景色</button>
+                <span class ="current-syntax">$("input:visible")</span>
+            </div>
+        </div>
+
+        <h5 class="margin-left10">3.4 子元素过滤选择器</h5>
+        <div class="box">
+
+            <div>
+                匹配第一个元素,可选择多个元素:
+                <span class ="full-syntax">$("selector:first-child")</span>
+                <button id="btn_child_selector1">设置无序列表第一项文字颜色</button>
+                <span class ="current-syntax">$("ul li:first-child")</span>
+            </div>
+
+            <div>
+                匹配最后一个元素,可选择多个元素:
+                <span class ="full-syntax">$("selector:last-child")</span>
+                <button id="btn_child_selector2">设置无序列表最后一项文字颜色</button>
+                <span class ="current-syntax">$("ul li:last-child")</span>
+            </div>
+
+            <div>
+                匹配其父元素下的第N个子或奇偶元素():
+                <span class ="full-syntax">$("selector:nth-child(index)")</span>
+                <button id="btn_child_selector3">设置无序列表第三项文字颜色</button>
+                <span class ="current-syntax">$("ul li:nth-child(3)")</span>
+            </div>
+
+            <div>
+                匹配其父元素下的第N个子或奇偶元素:
+                <span class ="full-syntax">$("selector:nth-child(index)")</span>
+                <button id="btn_child_selector4">设置无序列表偶数项文字颜色</button>
+                <span class ="current-syntax">$("ul li:nth-child(even)")</span>
+            </div>
+
+            <div>
+                匹配其父元素下的第N个子或奇偶元素:
+                <span class ="full-syntax">$("selector:nth-child(index)")</span>
+                <button id="btn_child_selector5">设置无序列表3的倍数项文字颜色</button>
+                <span class ="current-syntax">$("ul li:nth-child(3n)")</span>
+            </div>
+
+            <div>
+                匹配父元素中唯一的子元素:
+                <span class ="full-syntax">$("selector:only-child")</span>
+                <button id="btn_child_selector6">设置只有一项的无序列表子元素文字颜色</button>
+                <span class ="current-syntax">$("ul li:only-child")</span>
+            </div>
+        </div>
+
+        <h4>4. 属性选择器</h4>
+        <div class="box">
+            <div>
+                匹配设置了给定属性的元素:
+                <span class ="full-syntax">$("selector[attributeName]")</span>
+                <button id="btn_attr1_selector">设置a标签的文字颜色</button>
+                <span class ="current-syntax">$("a[href]")</span>
+            </div>
+
+            <div>
+                匹配给定的属性是某个特定值的元素:
+                <span class ="full-syntax">$("selector[attributeName=attributeValue]")</span>
+                <button id="btn_attr2_selector">设置用户名输入框背景色</button>
+                <span class ="current-syntax">$("input[name=username]")</span>
+            </div>
+
+            <div>
+                匹配所有不含有指定的属性,或者属性不等于特定值的元素:
+                <span class ="full-syntax">$("selector[attributeName!=attributeValue]")</span>
+                <button id="btn_attr3_selector">设置非用户名输入框的背景色</button>
+                <span class ="current-syntax">$("input[name!=username]")</span>
+            </div>
+
+            <div>
+                匹配给定的属性是以某些值开始的元素:
+                <span class ="full-syntax">$("selector[attributeName^=attributeValue]")</span>
+                <button id="btn_attr4_selector">设置用户名输入框的背景色</button>
+                <span class ="current-syntax">$("input[name^=user]")</span>
+            </div>
+
+            <div>
+                匹配给定的属性是以某些值结尾的元素:
+                <span class ="full-syntax">$("selector[attributeName$=attributeValue]")</span>
+                <button id="btn_attr5_selector">设置密码输入框的背景色</button>
+                <span class ="current-syntax">$("input[name$=word]")</span>
+            </div>
+
+            <div>
+                匹配给定的属性是以包含某些值的元素:
+                <span class ="full-syntax">$("selector[attributeName*=attributeValue]")</span>
+                <button id="btn_attr6_selector">设置name属性值中包含na的输入框背景色</button>
+                <span class ="current-syntax">$("input[name*=na]")</span>
+            </div>
+
+            <div>
+                复合属性选择器,匹配同时满足多个条件的元素:
+                <span class ="full-syntax">$("selector[attrSelector1][attrSelector2]...")</span>
+                <button id="btn_attr7_selector">设置用户名输入框背景色</button>
+                <span class ="current-syntax">$("input[type=text][name=username]")</span>
+            </div>
+        </div>
+
+        <h4>5. 筛选选择器(该选择器里都是jQuery对象方法)</h4>
+        <h5>5.1 过滤</h5>
+        <div class="box">
+            <div>
+                获取当前链式操作中第N个jQuery对象,索引从0开始:
+                <span class ="full-syntax">.eq(index)</span>
+                <button id="btn_sx_selector1">设置无序列表第三项文字颜色</button>
+                <span class ="current-syntax">$("ul li").eq(2)</span>
+            </div>
+
+            <div>
+                获取第一个元素:
+                <span class ="full-syntax">.first([selector])</span>
+                <button id="btn_sx_selector2">设置无序列表第一项文字颜色</button>
+                <span class ="current-syntax">$("ul li").first()</span>
+            </div>
+
+            <div>
+                获取最后一个元素:
+                <span class ="full-syntax">.last([selector])</span>
+                <button id="btn_sx_selector3">设置无序列表最后一项文字颜色</button>
+                <span class ="current-syntax">$("ul li").last()</span>
+            </div>
+
+            <div>
+                检查当前的元素是否含有某个特定的类:
+                <span class ="full-syntax">.hasClass(class)</span>
+                <button id="btn_sx_selector4">检查文档内是否有类名为box的元素</button>
+                <span class ="current-syntax">$("*").hasClass("box")</span>
+            </div>
+
+            <div>
+                筛选出与指定表达式匹配的元素集合:
+                <span class ="full-syntax">.filter(selector)</span>
+                <button id="btn_sx_selector5">设置所有无序列表项文字颜色</button>
+                <span class ="current-syntax">$("*").filter("ul li")</span>
+            </div>
+
+            <div>
+                是否符合给定的条件(选择器/DOM元素/jQuery对象),有一个符合就返回true:
+                <span class ="full-syntax">.is(selector)</span>
+                <button id="btn_sx_selector6">检测文档中是否有a标签</button>
+                <span class ="current-syntax">$("*").is("a")</span>
+            </div>
+
+            <div>
+                将一组元素转换成其他数组(不论是否是元素数组):
+                <span class ="full-syntax">.map(callback)</span>
+                <button id="btn_sx_selector7">把无序列表内容追加到第一个p标签里面</button>
+                <span class ="current-syntax">$("ul li").map</span>
+            </div>
+
+            <div>
+                获取有指定后代的元素:
+                <span class ="full-syntax">.has(selector)</span>
+                <button id="btn_sx_selector8">设置有ul后代的div背景色</button>
+                <span class ="current-syntax">$("div").has("ul")</span>
+            </div>
+
+            <div>
+                从匹配元素的集合中删除与指定表达式匹配的元素:
+                <span class ="full-syntax">.not(selector/DOM)</span>
+                <button id="btn_sx_selector9">设置段落2的背景色</button>
+                <span class ="current-syntax">$("p").not(".param1")</span>
+            </div>
+
+            <div>
+                获取指定索引范围内的所有元素:
+                <span class ="full-syntax">.slice(startIndex,[endIndex])</span>
+                <button id="btn_sx_selector">设置无序列表第2项到第四项文字颜色</button>
+                <span class ="current-syntax">$("ul li").slice(1, 4)</span>
+            </div>
+        </div>
+
+        <h5>5.2 查找</h5>
+        <div class="box">
+            <div>
+                查找所有或符合条件的子元素集合:
+                <span class ="full-syntax">.children([selector])</span>
+                <button id="btn_find_selector1">设置所有无序列表选项文字颜色</button>
+                <span class ="current-syntax">$("ul").children()</span>
+            </div>
+
+            <div>
+                查找所有符合条件的子元素:
+                <span class ="full-syntax">.find(selector)</span>
+                <button id="btn_find_selector2">设置所有div内的p标签背景色</button>
+                <span class ="current-syntax">$("div").find("p")</span>
+            </div>
+
+            <div>
+                查找下一个符合条件的同辈元素:
+                <span class ="full-syntax">.next([selector])</span>
+                <button id="btn_find_selector3">设置无序列表中第四项的文字颜色</button>
+                <span class ="current-syntax">$("ul li.li-third").next("li")</span>
+            </div>
+
+            <div>
+                查找当前元素之后所有的同辈元素:
+                <span class ="full-syntax">.nextAll([selector])</span>
+                <button id="btn_find_selector4">设置无序列表第三项后面所有的项文字颜色</button>
+                <span class ="current-syntax">$("ul li.li-third").nextAll()</span>
+            </div>
+
+            <div>
+                查找后面所有同辈的元素直到遇到给定条件:
+                <span class ="full-syntax">.nextUntil([selector])</span>
+                <button id="btn_find_selector5">设置无序列表第四五项文字颜色</button>
+                <span class ="current-syntax">$("ul li.li-third").nextUntil(".li-six")</span>
+            </div>
+
+            <div>
+                查找上一个符合条件的同辈元素:
+                <span class ="full-syntax">.prev([selector])</span>
+                <button id="btn_find_selector6">设置无序列表中第二项的文字颜色</button>
+                <span class ="current-syntax">$("ul li.li-third").prev("li")</span>
+            </div>
+
+            <div>
+                查找当前元素之前所有的同辈元素:
+                <span class ="full-syntax">.prevAll([selector])</span>
+                <button id="btn_find_selector7">设置无序列表第三项前面所有的项文字颜色</button>
+                <span class ="current-syntax">$("ul li.li-third").prevAll()</span>
+            </div>
+
+            <div>
+                查找前面所有同辈的元素直到遇到给定条件:
+                <span class ="full-syntax">.prevUntil([selector])</span>
+                <button id="btn_find_selector8">设置无序列表第四五项文字颜色</button>
+                <span class ="current-syntax">$("ul li.li-six").prevUntil(".li-third")</span>
+            </div>
+
+            <div>
+                查找最近的带有定位的父元素:
+                <span class ="full-syntax">.offsetParent()</span>
+                <button id="btn_find_selector9">设置小盒子最近带定位的父盒子背景色</button>
+                <span class ="current-syntax">$(".lit-box").offsetParent()</span>
+            </div>
+
+            <div>
+                查找(符合条件的)父元素:
+                <span class ="full-syntax">.parent([selector])</span>
+                <button id="btn_find_selector10">设置小盒子的父盒子背景色</button>
+                <span class ="current-syntax">$(".lit-box").parent()</span>
+            </div>
+
+            <div>
+                查找所有(符合条件的)父辈元素:
+                <span class ="full-syntax">.parents([selector])</span>
+                <button id="btn_find_selector11">获取小盒子祖先元素的个数</button>
+                <span class ="current-syntax">$(".lit-box").parents()</span>
+            </div>
+
+            <div>
+                查找所有(符合条件的)父辈元素直到遇到给定的条件:
+                <span class ="full-syntax">.parentsUntil([selector])</span>
+                <button id="btn_find_selector12">设置小盒子指定父盒子的背景色</button>
+                <span class ="current-syntax">$(".lit-box").parentsUntil(".container_box")</span>
+            </div>
+
+            <div>
+                查找所有(符合条件的)兄弟元素:
+                <span class ="full-syntax">.siblings([selector])</span>
+                <button id="btn_find_selector13">设置无序列表第三项所有兄弟节点的文字颜色</button>
+                <span class ="current-syntax">$("li.li-third").siblings()</span>
+            </div>
+
+        </div>
+
+        <h5>5.3 串联</h5>
+        <div class="box">
+            <div>
+                把与表达式匹配的元素添加到jQuery对象中:
+                <span class ="full-syntax">.add(selector/dom)</span>
+                <button id="btn_cl_selector1">设置所有的p标签和input标签的背景色</button>
+                <span class ="current-syntax">$("p").add("input")</span>
+            </div>
+
+            <div>
+                添加堆栈中元素集合到当前集合:
+                <span class ="full-syntax">.addBack()</span>
+                <button id="btn_cl_selector2">设置无序列表第三项(包含第三项)以后项的背景色</button>
+                <span class ="current-syntax">$("li.li-third").nextAll().addBack()</span>
+            </div>
+
+            <div>
+                查找匹配元素内部所有的子节点,包括文本节点:
+                <span class ="full-syntax">.contents([selector])</span>
+                <button id="btn_cl_selector3">设置p标签背景色</button>
+                <span class ="current-syntax">$("div").contents("p")</span>
+            </div>
+
+            <div>
+                回到最近的一个"破坏性"操作之前.即:将匹配的元素列表变为前一次的状态:
+                <span class ="full-syntax">.end()</span>
+                <button id="btn_cl_selector4">设置小盒子的父盒子背景色</button>
+                <span class ="current-syntax">$("#show_box").find(".lit-box").end()</span>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="./jquery-3.4.1.min.js"></script>
+<script>
+    $(function () {
+        // 基础选择器
+        baseSelctor();
+        function baseSelctor() {
+
+            // id选择器
+            $("#btn_id_selector").click(function () {
+                // 用id选择器选中box
+                $("#show_box").css("background-color", "blue");
+            })
+
+            // 标签选择器
+            $("#btn_element_selector").click(function () {
+                // 用标签选择器设置a标签文字下划线样式
+                $("a").css("text-decoration", "none");
+            })
+
+            // 类选择器
+            $("#btn_class_selector").click(function () {
+                // 用类选择器设置盒子文字颜色
+                $(".show-box").css("color", "red");
+            })
+
+            // 通配符选择器
+            $("#btn_general_selector").click(function () {
+                // 通配符选择器获取所有元素
+                alert("当前页面共有:" + $("*").length + "个元素");
+            })
+
+            // 并集选择器
+            $("#btn_union_selector").click(function () {
+                // 并集选择器设置盒子和a标签的文字颜色
+                $(".show-box,a").css("color", "green");
+            })
+
+        }
+
+        // 层级选择器
+        levelSelector();
+        function levelSelector() {
+            // 后代选择器
+            $("#btn_hd_selector").click(function () {
+                $(".show-box div").css("background-color", "orange");
+            })
+
+            // 子代选择器
+            $("#btn_child_selector").click(function () {
+                $(".show-box>div").css("color", "green");
+            })
+
+            // 紧邻选择器
+            $("#btn_next_selector").click(function () {
+                $(".param1+.param2").css("color", "blue");
+            })
+
+            // 选择后面所有的兄弟元素
+            $("#btn_after_brother_selector").click(function () {
+                $(".li-third ~ li").css("color", "yellow");
+            })
+        }
+
+        // 过滤选择器 基本过滤选择器
+        baseFilterSelector()
+        function baseFilterSelector() {
+            // 匹配第一个元素
+            $("#btn_first_selector").click(function () {
+                $("li:first").css("color", "red");
+            })
+
+            // 匹配最后一个元素
+            $("#btn_last_selector").click(function () {
+                $("li:last").css("color", "blue");
+            })
+
+
+            // 匹配偶数项选择器
+            $("#btn_even_selector").click(function () {
+                $("li:even").css("color", "green");
+            })
+
+            // 匹配奇数项选择器
+            $("#btn_odd_selector").click(function () {
+                $("li:odd").css("color", "blue");
+            })
+
+            // 匹配指定索引项的元素
+            $("#btn_eq_selector").click(function () {
+                $("li:eq(3)").css("color", "orange");
+            })
+
+            // 匹配去掉给定选择器的元素
+            $("#btn_not_selector").click(function () {
+                $("li:not(.li-third)").css("color", "blue");
+            })
+
+            // 匹配大于给定索引的元素
+            $("#btn_gt_selector").click(function () {
+                $("li:gt(1)").css("color", "blue");
+            })
+
+            // 匹配小于给定索引的元素
+            $("#btn_lt_selector").click(function () {
+                $("li:lt(3)").css("color", "yellow");
+            })
+
+            // 匹配标题标签
+            $("#btn_header_selector").click(function () {
+                $(":header").css("color", "red");
+            })
+
+            // 匹配所有正在执行动画的元素
+            $("#btn_animated_selector").click(function () {
+                $(":not(:animated)").animate({
+                    left: "+=200"
+                }, 1000);
+            })
+
+            // 匹配当前获得焦点的元素
+            $("#btn_focus_selector").click(function () {
+                $("input:focus").css("background-color", "red");
+            })
+
+            // 匹配当前文档的根元素
+            $("#btn_root_selector").click(function () {
+                $(":root").css("background-color", "red");
+            })
+
+        }
+
+        // 内容过滤选择器
+        contentFilterSelector()
+        function contentFilterSelector() {
+            // 匹配包含指定字符的元素
+            $("#btn_contains_selector").click(function () {
+                $("div:contains(盒子)").css("background-color", "red");
+            })
+
+            // 匹配所有不包含子元素或者文本的空元素
+            $("#btn_empty_selector").click(function () {
+                $(":empty").css("background-color", "red");
+            })
+
+            // 匹配含有选择器所匹配的元素的元素
+            $("#btn_has_selector").click(function () {
+                $("div:has(p)").css("background-color", "red");
+            })
+
+            // 匹配含有子元素或者文本的元素
+            $("#btn_parent_selector").click(function () {
+                $(".show-box:parent").css("background-color", "red");
+            })
+        }
+
+        // 可见性过滤选择器
+        visibleFilterSelector()
+        function visibleFilterSelector() {
+
+            // 匹配所有不可见元素，或者type为hidden的元素
+            $("#btn_hidden_selector").click(function () {
+                // 设置隐藏的元素显示
+                $("div:hidden").css("display", "block");
+            })
+
+            $("#btn_visible_selector").click(function () {
+                // 设置显示的输入框背景色
+                $("input:visible").css("background-color", "red");
+            })
+        }
+
+        // 子元素过滤选择器
+        childFilterSelector();
+        function childFilterSelector() {
+            // 匹配第一个元素，可选中多个元素
+            $("#btn_child_selector1").click(function () {
+                $("ul li:first-child").css("color", "blue");
+            })
+
+            // 匹配最后一个元素,可选择多个元素
+            $("#btn_child_selector2").click(function () {
+                $("ul li:last-child").css("color", "green");
+            })
+
+            // 匹配其父元素下的第N个子或奇偶元素
+            $("#btn_child_selector3").click(function () {
+                $("ul li:nth-child(3)").css("color", "red");
+            })
+
+            $("#btn_child_selector4").click(function () {
+                $("ul li:nth-child(even)").css("color", "orange");
+            })
+
+            $("#btn_child_selector5").click(function () {
+                $("ul li:nth-child(3n)").css("color", "blue");
+            })
+
+            // 匹配父元素中唯一的子元素
+            $("#btn_child_selector6").click(function () {
+                $("ul li:only-child").css("color", "yellow");
+            })
+
+        }
+
+        // 属性选择器
+        attributeSelector();
+        function attributeSelector() {
+            // 匹配设置了给定属性的元素
+            $("#btn_attr1_selector").click(function () {
+                $("a[href]").css("color", "red");
+            })
+
+            // 匹配给定的属性是某个特定值的元素
+            $("#btn_attr2_selector").click(function () {
+                $("input[name=username]").css("background-color", "red");
+            })
+
+            // 匹配所有不含有指定的属性，或者属性不等于特定值的元素
+            $("#btn_attr3_selector").click(function () {
+                $("input[name!=username]").css("background-color", "red");
+            })
+
+            // 匹配给定的属性是以某些值开始的元素
+            $("#btn_attr4_selector").click(function () {
+                $("input[name^=user]").css("background-color", "blue");
+            })
+
+            // 匹配给定的属性是以某些值结尾的元素
+            $("#btn_attr5_selector").click(function () {
+                $("input[name$=word]").css("background-color", "blue");
+            })
+
+            // 匹配给定的属性是以包含某些值的元素
+            $("#btn_attr6_selector").click(function () {
+                $("input[name*=na]").css("background-color", "green");
+            })
+
+            // 复合属性选择器,匹配同时满足多个条件的元素
+            $("#btn_attr7_selector").click(function () {
+                $("input[type=text][name=username]").css("background-color", "orange");
+            })
+        }
+
+        // 筛选选择器 过滤
+        sxSelector()
+        function sxSelector() {
+            // 获取当前链式操作中第N个jQuery对象
+            $("#btn_sx_selector1").click(function () {
+                $("ul li")
+                    .eq(2)
+                    .css("color", "red");
+            })
+
+            // 获取第一个元素
+            $("#btn_sx_selector2").click(function () {
+                $("ul li")
+                    .first()
+                    .css("color", "blue");
+            })
+
+            // 获取最后一个元素
+            $("#btn_sx_selector3").click(function () {
+                $("ul li")
+                    .last()
+                    .css("color", "orange");
+            })
+
+            // 检查当前的元素是否含有某个特定的类
+            $("#btn_sx_selector4").click(function () {
+                var res = $("*").hasClass("box")
+                    ? "是"
+                    : "否";
+                alert(res);
+            })
+
+            // 筛选出与指定表达式匹配的元素集合
+            $("#btn_sx_selector5").click(function () {
+                $("*")
+                    .filter("ul li")
+                    .css("color", "blue");
+            })
+
+            // 是否符合给定条件
+            $("#btn_sx_selector6").click(function () {
+                var res = $("*").is("a")
+                    ? "是"
+                    : "否";
+                alert(res);
+            })
+
+            // 将一组元素转换成其他数组 map
+            $("#btn_sx_selector7").click(function () {
+                // 获取所有li里面的内容
+                var $texts = $("ul li").map(function () {
+                    return $(this).text();
+                });
+
+                // 追加到p标签里
+                $(".param1").append($texts.get());
+            })
+
+            // 获取有指定后代的元素
+            $("#btn_sx_selector8").click(function () {
+                $("div")
+                    .has("ul")
+                    .css("background-color", "red");
+            })
+
+            // 从匹配元素的集合中删除与指定表达式匹配的元素
+            $("#btn_sx_selector9").click(function () {
+                $("p")
+                    .not(".param1")
+                    .css("background-color", "red");
+            })
+
+            // 获取指定索引范围内的所有元素
+            $("#btn_sx_selector").click(function () {
+                $("ul li")
+                    .slice(1, 4)
+                    .css("color", "blue");
+            })
+        }
+
+        // 查找
+        findSelector();
+        function findSelector() {
+            // 查找所有或符合条件的子元素集合
+            $("#btn_find_selector1").click(function () {
+                $("ul")
+                    .children()
+                    .css("color", "orange");
+            })
+
+            // 查找所有符合条件的子元素
+            $("#btn_find_selector2").click(function () {
+                $("div")
+                    .find("p")
+                    .css("background-color", "red");
+            })
+
+            // 查找下一个符合条件的同辈元素
+            $("#btn_find_selector3").click(function () {
+                $("ul li.li-third")
+                    .next("li")
+                    .css("color", "orange");
+            })
+
+            // 查找当前元素之后所有的同辈元素
+            $("#btn_find_selector4").click(function () {
+                $("ul li.li-third")
+                    .nextAll()
+                    .css("color", "blue");
+            })
+
+            // 查找后面所有同辈的元素直到遇到给定条件
+            $("#btn_find_selector5").click(function () {
+                $("ul li.li-third")
+                    .nextUntil(".li-six")
+                    .css("color", "blue");
+            })
+
+            // 查找下一个符合条件的同辈元素
+            $("#btn_find_selector6").click(function () {
+                $("ul li.li-third")
+                    .prev("li")
+                    .css("color", "blue");
+            })
+
+            // 查找当前元素之前所有的同辈元素
+            $("#btn_find_selector7").click(function () {
+                $("ul li.li-third")
+                    .prevAll()
+                    .css("color", "blue");
+            })
+
+            // 查找前面所有同辈的元素直到遇到给定条件
+            $("#btn_find_selector8").click(function () {
+                $("ul li.li-six")
+                    .prevUntil(".li-third")
+                    .css("color", "blue");
+            })
+
+            // 查找最近的带有定位的父元素
+            $("#btn_find_selector9").click(function () {
+                $(".lit-box")
+                    .offsetParent()
+                    .css("background-color", "red");
+            })
+
+            // 查找(符合条件的)父元素
+            $("#btn_find_selector10").click(function () {
+                $(".lit-box")
+                    .parent()
+                    .css("background-color", "red");
+            })
+
+            // 获取所有(符合条件的)父辈元素
+            $("#btn_find_selector11").click(function () {
+                var $parents = $(".lit-box").parents();
+                alert("小盒子有" + $parents.length + "个祖先元素");
+            })
+
+            // 获取所有(符合条件的)父辈元素直到遇到给定的条件
+            $("#btn_find_selector12").click(function () {
+                $(".lit-box")
+                    .parentsUntil(".container_box")
+                    .css("background-color", "red");
+            })
+
+            // 查找所有(符合条件的)兄弟元素
+            $("#btn_find_selector13").click(function () {
+                $("li.li-third")
+                    .siblings()
+                    .css("color", "red");
+            })
+        }
+    
+        // 串联
+        chuanlianSelector();
+        function chuanlianSelector(){
+            // 把与表达式匹配的元素添加到jQuery对象中
+            $("#btn_cl_selector1").click(function(){
+                $("p").add("input").css("background-color","red");
+            })
+
+            // 添加堆栈中元素集合到当前集合
+            $("#btn_cl_selector2").click(function(){
+                $("li.li-third").nextAll().addBack().css("background-color","red");
+            })
+
+            // 查找匹配元素内部所有的子节点,包括文本节点
+            $("#btn_cl_selector3").click(function(){
+                $("div").contents("p").css("background-color","red");
+            })
+
+            // 回到最近的一个"破坏性"操作之前.即:将匹配的元素列表变为前一次的状态
+            $("#btn_cl_selector4").click(function(){
+                $("#show_box").find(".lit-box").end().css("background-color","red");
+            })
+        }
+    })
+</script>

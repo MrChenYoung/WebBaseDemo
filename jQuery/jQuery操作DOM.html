@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>jQuery操作DOM</title>
+        <style>
+            button {
+                font-size: 14px;
+                padding: 3px;
+                margin: 5px;
+            }
+
+            span {
+                font-size: 12px;
+            }
+
+            .right {
+                width: 30%;
+                float: right;
+            }
+            .box {
+                margin-left: 20px;
+            }
+
+            .container_box {
+                width: 100%;
+                overflow: hidden;
+                position: fixed;
+                top: 150px;
+            }
+
+            .show-box {
+                width: 100px;
+                height: 100px;
+                border: 1px dashed #ccc;
+                display: inline-block;
+                text-align: center;
+                line-height: 100px;
+                font-size: 14px;
+                margin: 5px;
+            }
+
+            .lit-box {
+                width: 60px;
+                height: 50px;
+                line-height: 50px;
+            }
+
+            .wrap_show_box {
+                line-height: 20px;
+            }
+
+            .bg-color {
+                background-color: blue;
+            }
+
+            .color {
+                color: #fff;
+            }
+
+            .margin-top20 {
+                margin-top: 20px;
+            }
+
+            /* 完整语法格式 */
+            .full-syntax {
+                color: red;
+            }
+
+            /* 当前所用语法 */
+            .current-syntax {
+                color: blue;
+            }
+
+            /* 废弃版本 */
+            .abandoned-syntax {
+                color: green;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 效果显示区 -->
+        <div class="right" id="right">
+            <div class="container_box">
+                <div class="outer-box" id="outer_box">
+                    <div class="show-box" id="box1">盒子1</div>
+                </div>
+                <!-- 盒子包裹 -->
+                <div class="margin-top20">
+                        <div class="show-box wrap_show_box" id="big_box1" >大盒子1</div>
+                        <div class="show-box wrap_show_box" id="big_box2">大盒子2
+                            <div class="show-box lit-box " id="lit_box2" style="width: 70px; line-height: 20px;">小盒子2</div>
+                        </div>
+    
+                        <div class="show-box lit-box wrap_show_box" id="lit_box1">小盒子1</div>
+                        <div class="show-box lit-box wrap_show_box" id="lit_box3">小盒子3</div>
+                </div>
+                <!-- 输入框 -->
+                <div class="margin-top20">
+                    <input id="input" type="text" value="默认文本输入框内容">
+                </div>
+                <!-- 下拉列表 -->
+                <div class="margin-top20">
+                    <!-- 单选列表 -->
+                    <select name="" id="select_single">
+                        <option value="北京">北京</option>
+                        <option value="上海">上海</option>
+                        <option value="天津">天津</option>
+                        <option value="重庆">重庆</option>
+                    </select>
+
+                    <!-- 多选列表 -->
+                    <select name="" id="select_multi" multiple="mutiple">
+                        <option value="苹果" selected="selected">苹果</option>
+                        <option value="香蕉">香蕉</option>
+                        <option value="橘子">橘子</option>
+                        <option value="橙子" selected="selected">橙子</option>
+                        <option value="榴莲">榴莲</option>
+                    </select>
+                </div>
+
+                <!-- 单选按钮 -->
+                <div class="margin-top20">
+                    <label for="first">
+                        <input type="radio" checked="checked" name="city" id="first" value="北京">
+                        北京
+                    </label>
+                    <label for="second">
+                        <input type="radio" name="city" id="second" value="上海">
+                        上海
+                    </label>
+                    <label for="third">
+                        <input type="radio" name="city" id="third" value="天津">
+                        天津
+                    </label>
+                    <label for="forth">
+                        <input type="radio" name="city" id="forth" value="重庆">
+                        重庆
+                    </label>
+
+                </div>
+
+                <!-- 多选按钮 -->
+                <div class="margin-top20">
+                    <label for="first">
+                        <input type="checkbox" id="first" checked="checked" value="苹果">苹果
+                    </label>
+                    <label for="second">
+                        <input type="checkbox" id="second" value="香蕉">香蕉
+                    </label>
+                    <label for="third">
+                        <input type="checkbox" id="third" value="橘子">橘子
+                    </label>
+                    <label for="forth">
+                        <input type="checkbox" id="forth" value="橙子">橙子
+                    </label>
+                    <label for="fifth">
+                        <input type="checkbox" id="fifth" checked="checked" value="榴莲">榴莲
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <span class ="full-syntax">红色标记完整语法，蓝色标记当前示例所用语法，"[]"内部参数表示可选参数</span>
+        <h4>1. 获取/设置CSS样式</h4>
+        <div class="box">
+            <div>
+                获取单个样式:
+                <span class="full-syntax">css(name/pro/[,val/fn])</span>
+                <button id="btn_get_width">获取盒子1宽度</button>
+                <span class="current-syntax">css(name)</span>
+            </div>
+            <div>
+                获取多个样式:
+                <span class="full-syntax">css(name/pro/[,val/fn])</span>
+                <button id="btn_get_multi_style">获取盒子1宽高和边框</button>
+                <span class="current-syntax">css(name数组)</span>
+            </div>
+            <div>
+                设置单个样式(方式1):
+                <span class="full-syntax">css(name/pro/[,val/fn])</span>
+                <button id="btn_set_width">设置盒子1的宽度</button>
+                <span class="current-syntax">css(name,value)</span>
+            </div>
+            <div>
+                设置单个样式(方式2):
+                <span class="full-syntax">css(name/pro/[,val/fn])</span>
+                <button id="btn_set_heigth">设置盒子1的高度</button>
+                <span class="current-syntax">css(name,function(index,value){return value}</span>
+            </div>
+            <div>
+                设置多个样式:
+                <span class="full-syntax">css(name/pro/[,val/fn])</span>
+                <button id="btn_set_multi_style">设置盒子1的宽高</button>
+                <span class="current-syntax">css({name: value, name: value,...})</span>
+            </div>
+        </div>
+
+        <h4>2. 类样式操作</h4>
+        <div class="box">
+            <div>
+                添加/删除单个类样式(方式一):
+                <span class="full-syntax">addClass(class/fn) removeClass同</span>
+                <button id="add_single_class1">给盒子1添加类</button>
+                <span class="current-syntax">addClass(class) removeClass同</span>
+            </div>
+            <div>
+                添加/删除单个类样式(方式二):
+                <span class="full-syntax">addClass(class/fn) removeClass同</span>
+                <button id="add_single_class2">给盒子1添加类</button>
+                <span class="current-syntax">addClass(function(index,value){return class} removeClass同</span>
+            </div>
+            <div>
+                添加/删除多个类样式(方式一):
+                <span class="full-syntax">addClass(class/fn) removeClass同</span>
+                <button id="add_multi_class1">给盒子1添加多个类</button>
+                <span class="current-syntax">addClass("class1 class2 class3...") removeClass同</span>
+            </div>
+            <div>
+                添加/删除多个类样式(方式二):
+                <span class="full-syntax">addClass(class/fn) removeClass同</span>
+                <button id="add_multi_class2">给盒子1添加类</button>
+                <span class="current-syntax">addClass(function(index,value){return "class1 class2 class3..."} removeClass同</span>
+            </div>
+            <div>
+                添加/删除单个类样式切换(方式一):
+                <span class="full-syntax">toggleClass(class/fn[,sw])</span>
+                <button id="add_single_class_toggle1">盒子1类添加/删除切换</button>
+                <select name="" id="toggle_class_switch1">
+                    <option value="">开关</option>
+                    <option value="开">开</option>
+                    <option value="关">关</option>
+                </select>
+                <span class="current-syntax">toggleClass(class,switch)</span>
+            </div>
+            <div>
+                添加/删除单个类样式切换(方式二):
+                <span class="full-syntax">toggleClass(class/fn[,sw])</span>
+                <button id="add_single_class_toggle2">盒子1类添加/删除切换</button>
+                <select name="" id="toggle_class_switch2">
+                    <option value="">开关</option>
+                    <option value="开">开</option>
+                    <option value="关">关</option>
+                </select>
+                <span class="current-syntax">toggleClass(function(){return class}, switch)</span>
+            </div>
+            <div>
+                添加/删除多个类样式切换(方式一):
+                <span class="full-syntax">toggleClass(class/fn[,sw])</span>
+                <button id="add_multi_class_toggle1">盒子1类添加/删除切换</button>
+                <select name="" id="toggle_class_switch3">
+                    <option value="">开关</option>
+                    <option value="开">开</option>
+                    <option value="关">关</option>
+                </select>
+                <span class="current-syntax">toggleClass("class1 class2 class3...",switch)</span>
+            </div>
+            <div>
+                添加/删除多个类样式切换(方式二):
+                <span class="full-syntax">toggleClass(class/fn[,sw])</span>
+                <button id="add_multi_class_toggle2">盒子1类添加/删除切换</button>
+                <select name="" id="toggle_class_switch4">
+                    <option value="">开关</option>
+                    <option value="开">开</option>
+                    <option value="关">关</option>
+                </select>
+                <span class="current-syntax">toggleClass(function(){return "class1 class2..."},switch)</span>
+            </div>
+        </div>
+
+        <h4>3. 元素内容操作</h4>
+        <div class="box">
+                <div>
+                    获取元素内部的html内容:
+                    <span class ="full-syntax">html([value/fn])</span>
+                    <button id="btn_get_html">获取盒子1父盒子的html内容</button>
+                    <span class ="current-syntax">html()</span>
+                </div>
+                <div>
+                    设置元素内部的html内容(方式一):
+                    <span class ="full-syntax">html([value/fn])</span>
+                    <button id="btn_set_html1">设置盒子1父盒子的html内容</button>
+                    <span class ="current-syntax">html(value)</span>
+                </div>
+                <div>
+                    设置元素内部的html内容(方式二):
+                    <span class ="full-syntax">html([value/fn])</span>
+                    <button id="btn_set_html2">设置盒子1父盒子的html内容</button>
+                    <span class ="current-syntax">html(function(index, oldValue){return value})</span>
+                </div>
+                <div>
+                    获取元素内部的text内容:
+                    <span class ="full-syntax">text([value/fn])</span>
+                    <button id="btn_get_text">获取盒子1父盒子的text内容</button>
+                    <span class ="current-syntax">text()</span>
+                </div>
+                <div>
+                    设置元素内部的text内容(方式一):
+                    <span class ="full-syntax">text([value/fn])</span>
+                    <button id="btn_set_text1">设置盒子1父盒子的text内容</button>
+                    <span class ="current-syntax">text(value)</span>
+                </div>
+                <div>
+                    设置元素内部的text内容(方式二):
+                    <span class ="full-syntax">text([value/fn])</span>
+                    <button id="btn_set_text2">设置盒子1父盒子的text内容</button>
+                    <span class ="current-syntax">text(function(index,oldValue){return value})</span>
+                </div>
+                <div>
+                    获取输入框value值:
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_get_value">获取输入框内部的的内容</button>
+                    <span class ="current-syntax">输入框.val()</span>
+                </div>
+                <div>
+                    设置输入框的value值(方式一):
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_set_value1">设置输入框内部的value值</button>
+                    <span class ="current-syntax">输入框.val(value)</span>
+                </div>
+                <div>
+                    设置输入框的value值(方式二):
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_set_value2">设置输入框内部的value值</button>
+                    <span class ="current-syntax">输入框.val(function(index,oldValue){return value})</span>
+                </div>
+                <div>
+                    获取单选下拉列表的value:
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_get_single_select">获取单选下拉列表value值</button>
+                    <span class ="current-syntax">单选下拉列表.val()</span>
+                </div>
+                <div>
+                    设置单选下拉列表的value(方式一):
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_set_single_select1">设置单选下拉列表选中重庆</button>
+                    <span class ="current-syntax">单选下拉列表.val(value)</span>
+                </div>
+                <div>
+                    设置单选下拉列表的value(方式二):
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_set_single_select2">设置单选下拉列表选中重庆</button>
+                    <span class ="current-syntax">单选下拉列表.val(function(){return value})</span>
+                </div>
+                <div>
+                    获取多选下拉列表的value:
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_get_multi_select">获取多选下拉列表value值</button>
+                    <span class ="current-syntax">多选下拉列表.val()</span>
+                </div>
+                <div>
+                    设置多选下拉列表的value(方式一):
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_set_multi_select1">设置多选下拉列表选中香蕉橘子</button>
+                    <span class ="current-syntax">多选下拉列表.val(arr)</span>
+                </div>
+                <div>
+                    设置多选下拉列表的value(方式二):
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_set_multi_select2">设置多选下拉列表选中香蕉橘子</button>
+                    <span class ="current-syntax">多选下拉列表.val(function(index,value){return arr})</span>
+                </div>
+                <div>
+                    获取单选按钮value:
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_get_radio">获取单选按钮value</button>
+                    <span class ="current-syntax">单选按钮.val()</span>
+                </div>
+                <div>
+                    设置单选按钮value(方式一):
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_set_radio1">设置单选按钮选中天津</button>
+                    <span class ="current-syntax">单选按钮.val(["天津"])</span>
+                </div>
+                <div>
+                    设置单选按钮value(方式二):
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_set_radio2">设置单选按钮选中天津</button>
+                    <span class ="current-syntax">单选按钮.val(function(index,value){return ["天津"]})</span>
+                </div>
+                <div>
+                    获取多选按钮value:
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_get_checkbox">获取多选按钮value</button>
+                    <span class ="current-syntax">多选按钮.val()</span>
+                </div>
+                <div>
+                    设置多选按钮value(方式一):
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_set_checkbox1">设置多选按钮选中香蕉橙子</button>
+                    <span class ="current-syntax">多选按钮.val(["香蕉","橙子"])</span>
+                </div>
+                <div>
+                    设置多选按钮value(方式二):
+                    <span class ="full-syntax">.val([val/fn/arr])</span>
+                    <button id="btn_set_checkbox2">设置多选按钮选中香蕉橙子</button>
+                    <span class ="current-syntax">多选按钮.val(function(index,value){return ["香蕉","橙子"]})</span>
+                </div>
+        </div>
+
+        <h4>4. 元素属性操作</h4>
+        <div class="box">
+            <div>
+                获取属性值:
+                <span class ="full-syntax">.attr(attrName/properties/key,value/fn)</span>
+                <button id="btn_get_attr">获取文本输入框的value值</button>
+                <span class ="current-syntax">.attr(attrName)</span>
+            </div>
+
+            <div>
+                设置单个属性方式一:
+                <span class ="full-syntax">.attr(attrName/properties/key,value/fn)</span>
+                <button id="btn_set_attr1">设置文本输入框的value值</button>
+                <span class ="current-syntax">.attr(attrName,attrValue)</span>
+            </div>
+
+            <div>
+                    设置单个属性方式二:
+                    <span class ="full-syntax">.attr(attrName/properties/key,value/fn)</span>
+                    <button id="btn_set_attr2">设置文本输入框的value值</button>
+                    <span class ="current-syntax">.attr(attrName,function(){return attrValue})</span>
+                </div>
+
+            <div>
+                    设置多个属性:
+                    <span class ="full-syntax">.attr(attrName/properties/key,value/fn)</span>
+                    <button id="btn_set_attr3">设置文本输入框的type和value值</button>
+                    <span class ="current-syntax">.attr({attrName:attrValue,attrName:attrValue,attrName:attrValue...})</span>
+                </div>
+
+            <div>
+                删除属性:
+                <span class ="full-syntax">.removeAttr(name)</span>
+                <button id="btn_remove_attr">删除输入框的value属性</button>
+                <span class ="current-syntax">.removeAttr(name)</span>
+            </div>
+
+            <div>
+                获取属性值:
+                <span class ="full-syntax">.prop(propName/properties/key, value/fn)</span>
+                <button id="btn_get_prop">获取输入框的value值</button>
+                <span class ="current-syntax">.prop(propName)</span>
+            </div>
+
+            <div>
+                设置单个属性方式一:
+                <span class ="full-syntax">.prop(propName/properties/key, value/fn)</span>
+                <button id="btn_set_prop1">设置输入框的value值</button>
+                <span class ="current-syntax">.prop(propName,propValue)</span>
+            </div>
+
+            <div>
+                设置单个属性方式二:
+                <span class ="full-syntax">.prop(propName/properties/key, value/fn)</span>
+                <button id="btn_set_prop2">设置输入框的value值</button>
+                <span class ="current-syntax">.prop(propName,function(){return propValue})</span>
+            </div>
+
+            <div>
+                设置多个属性:
+                <span class ="full-syntax">.prop(propName/properties/key, value/fn)</span>
+                <button id="btn_set_prop3">设置文本输入框的type和value值</button>
+                <span class ="current-syntax">.prop({propName:propValue, propName:propValue, propName:propValue...})</span>
+            </div>
+
+            <div>
+                删除属性(不能删除内置的原有属性):
+                <span class ="full-syntax">.removeProp(propName)</span>
+                <button id="btn_remove_prop">删除输入框value属性</button>
+                <span class ="current-syntax">.removeProp(propName)</span>
+            </div>
+        </div>
+
+        <h4>5. 文档节点操作</h4>
+        <div class="box">
+            <h5>5.1 内部插入</h5>
+            <div class="box">
+                <div>
+                    最后面追加盒子(方式一):
+                    <span class ="full-syntax">.append(content/fn)</span>
+                    <button id="btn_append1">追加盒子</button>
+                    <span class ="current-syntax">父元素.append(子元素)</span>
+                </div>
+                <div>
+                    最后面追加盒子(方式二):
+                    <span class ="full-syntax">.append(content/fn)</span>
+                    <button id="btn_append2">追加盒子</button>
+                    <span class ="current-syntax">父元素.append(function(inde,value){return 子元素}</span>
+                </div>
+                <div>
+                    把现有盒子移到最后:
+                    <span class ="full-syntax">.appendTo(content)</span>
+                    <button id="btn_appendTo">移动盒子1到最后面</button>
+                    <span class ="current-syntax">子元素.appendTo(父元素)</span>
+                </div>
+                <div>
+                    最前面添加盒子(方式一):
+                    <span class ="full-syntax">.prepend(content/fn)</span>
+                    <button id="btn_prepend1">前面添加盒子</button>
+                    <span class ="current-syntax">父元素.prepend(子元素)</span>
+                </div>
+                <div>
+                    最前面添加盒子(方式二):
+                    <span class ="full-syntax">.prepend(content/fn)</span>
+                    <button id="btn_prepend2">前面添加盒子</button>
+                    <span class ="current-syntax">父元素.prepend(function(){return 子元素})</span>
+                </div>
+                <div>
+                    把现有盒子移到最前面:
+                    <span class ="full-syntax">.prependTo(content)</span>
+                    <button id="btn_prependTo">移动最后一个盒子到最前面</button>
+                    <span class ="current-syntax">子元素.prependTo(父元素)</span>
+                </div>
+            </div>
+
+            <h5>5.2 外部插入</h5>
+            <div class="box">
+                <div>
+                    盒子后面添加兄弟盒子(方式一):
+                    <span class ="full-syntax">.after(content/fn)</span>
+                    <button id="btn_after1">在盒子1后面添加新盒子</button>
+                    <span class ="current-syntax">兄弟元素.after(后面要添加的元素)</span>
+                </div>
+                <div>
+                    盒子后面添加兄弟盒子(方式二):
+                    <span class ="full-syntax">.after(content/fn)</span>
+                    <button id="btn_after2">在盒子1后面添加新盒子</button>
+                    <span class ="current-syntax">兄弟盒子.after(function(index,value){return 后面要添加的元素}</span>
+                </div>
+                <div>
+                    盒子后面添加兄弟盒子(方式三):
+                    <span class ="full-syntax">.insertAfter(content}</span>
+                    <button id="btn_after3">在盒子1后面添加新盒子</button>
+                    <span class ="current-syntax">后面要添加的元素.insertAfter(兄弟元素}</span>
+                </div>
+                <div>
+                    盒子前面添加兄弟盒子(方式一):
+                    <span class ="full-syntax">.before(content/fn)</span>
+                    <button id="btn_before1">在盒子1前面添加新盒子</button>
+                    <span class ="current-syntax">兄弟元素.before(前面要添加的元素)</span>
+                </div>
+                <div>
+                    盒子前面添加兄弟盒子(方式二):
+                    <span class ="full-syntax">.before(content/fn)</span>
+                    <button id="btn_before2">在盒子1前面添加新盒子</button>
+                    <span class ="current-syntax">兄弟盒子.before(function(index,value){return 前面要添加的元素})</span>
+                </div>
+                <div>
+                    盒子前面添加兄弟盒子(方式三):
+                    <span class ="full-syntax">.insertBefore(content)</span>
+                    <button id="btn_before3">在盒子1前面添加新盒子</button>
+                    <span class ="current-syntax">前面要添加的元素.insertBefore(兄弟元素)</span>
+                </div>
+            </div>
+            
+
+            <h5>5.3 元素相互包裹</h5>
+            <div class="box">
+                <div>
+                    大盒子包裹小盒子方式一:
+                    <span class ="full-syntax">.wrap(html/element/fn)</span>
+                    <button id="btn_wrap1">用大盒子1包裹小盒子1</button>
+                    <span class ="current-syntax">被包裹的元素.wrap(新建的父元素)</span>
+                </div>
+
+                <div>
+                    大盒子包裹小盒子方式二:
+                    <span class ="full-syntax">.wrap(html/element/fn)</span>
+                    <button id="btn_wrap2">用大盒子1包裹小盒子1</button>
+                    <span class ="current-syntax">被包裹的元素.wrap(function(){return 新建的父元素})</span>
+                </div>
+
+                <div>
+                    批量包裹:
+                    <span class ="full-syntax">.wrapAll(html/element)</span>
+                    <button id="btn_wrap_all">用大盒子1包裹小盒子1和小盒子2</button>
+                    <span class ="current-syntax">.wrapAll(新建的子元素)</span>
+                </div>
+
+                <div>
+                    包裹内容方式一:
+                    <span class ="full-syntax">.wrapInner(htm/element/fn)</span>
+                    <button id="btn_wrapinner1">把小盒子1和小盒子3的内容加粗</button>
+                    <span class ="current-syntax">.wrapInner(新建的父元素)</span>
+                </div>
+
+                <div>
+                        包裹内容方式二:
+                        <span class ="full-syntax">.wrapInner(htm/element/fn)</span>
+                        <button id="btn_wrapinner2">把小盒子1和小盒子3的内容加粗</button>
+                        <span class ="current-syntax">.wrapInner(function(){return 新建的父元素})</span>
+                    </div>
+
+                <div>
+                    去掉盒子包裹:
+                    <span class ="full-syntax">.unwrap()</span>
+                    <button id="btn_unwrap">去掉小盒子2外面的大盒子2</button>
+                    <span class ="current-syntax">.unwrap()</span>
+                </div>
+            </div>
+
+            <h5>5.4 元素替换</h5>
+            <div class="box">
+                <div>
+                    替换掉指定元素方式一:
+                    <span class ="full-syntax">.replaceWith(content/fn)</span>
+                    <button id="btn_replace1">把大盒子1替换成小盒子1</button>
+                    <span class ="current-syntax">.replaceWith(content)</span>
+                </div>
+
+                <div>
+                    替换掉指定元素方式二:
+                    <span class ="full-syntax">.replaceWith(content/fn)</span>
+                    <button id="btn_replace2">把大盒子1替换成小盒子1</button>
+                    <span class ="current-syntax">.replaceWith(function(){return content})</span>
+                </div>
+
+                <div>
+                    替换通过选择器查找到的所有元素:
+                    <span class ="full-syntax">.replaceAll(selector)</span>
+                    <button id="btn_replace_all">用大盒子1替换所有的小盒子</button>
+                    <span class ="current-syntax">.replaceAll(selector)</span>
+                </div>
+            </div>
+
+            <h5>5.5 删除元素</h5>
+            <div class="box">
+                <div>
+                    删除匹配的元素集合中所有的子节点:
+                    <span class ="full-syntax">.empty()</span>
+                    <button id="btn_empty">删除大盒子2里面的所有内容</button>
+                    <span class ="current-syntax">.empty()</span>
+                </div>
+
+                <div>
+                    删除元素(元素不会从jQuery对象删除,但是绑定的事件和附加数据会删除):
+                    <span class ="full-syntax">.remove([expr])</span>
+                    <button id="btn_remove1">删除所有的小盒子</button>
+                    <span class ="current-syntax">.remove()</span>
+                    
+                </div>
+
+                <div>
+                    删除符合指定条件的元素(元素不会从jQuery对象删除,但是绑定的事件和附加数据会删除):
+                    <span class ="full-syntax">.remove([expr])</span>
+                    <button id="btn_remove2">删除盒子1和盒子3</button>
+                    <span class ="current-syntax">.remove(expr)</span>
+                </div>
+
+                <div>
+                    删除元素.detach()用法同.remove() <span>.detach()删除的元素，元素本身和绑定的事件数据都依然保存在jQuery对象中</span>
+                </div>
+            </div>
+
+            <h5>5.6 克隆元素</h5>
+            <div class="box">
+                <div>
+                    浅复制,只复制元素本身,不会复制绑定的事件和数据:
+                    <span class ="full-syntax">.clone([Even[,deepEven]])</span>
+                    <button id="btn_clone1">克隆大盒子1,把副本放到父盒子最后面</button>
+                    <span class ="current-syntax">.clone()</span>
+                    
+                </div>
+
+                <div>
+                    深复制,同时复制元素绑定的事件和数据:
+                    <span class ="full-syntax">.clone([Even[,deepEven]])</span>
+                    <button id="btn_clone2">克隆大盒子1,把副本放到父盒子最后面</button>
+                    <span class ="current-syntax">.clone(true)</span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="./jquery-3.4.1.min.js"></script>
+<script>
+    $(function () {
+        // 外部大盒子
+        var box = $("#outer_box");
+
+        // 当前盒子索引
+        var box_index = 1;
+
+        // 创建的小盒子
+        var box1 = $("#box1");
+
+        // 访问css样式
+        CSSOperation();
+        function CSSOperation() {
+            // 获取单个样式
+            $("#btn_get_width").click(function () {
+                var width = box1.css("width");
+                alert(width);
+            })
+
+            // 获取多个样式
+            $("#btn_get_multi_style").click(function () {
+                var styles = box1.css(["width", "height", "border"]);
+                // Object转String
+                styles = JSON.stringify(styles);
+                alert(styles);
+            })
+
+            // 设置单个样式方式1
+            $("#btn_set_width").click(function () {
+                box1.css("width", "150px");
+            })
+
+            // 设置单个样式方式2
+            $("#btn_set_heigth").click(function () {
+                box1.css("height", function (index, value) {
+                    return "150px";
+                })
+            })
+
+            // 设置多个样式
+            $("#btn_set_multi_style").click(function () {
+                box1.css({"width": "50px", "height": "50px"});
+            })
+        }
+
+        // 类样式操作
+        ClassOperation();
+        function ClassOperation() {
+            // 添加/删除单个类方式一
+            $("#add_single_class1").click(function () {
+                if (box1.hasClass("bg-color")) {
+                    // 有指定的类 移除
+                    box1.removeClass("bg-color");
+                    $(this).text("给盒子1添加类");
+                } else {
+                    // 没有指定的类  添加
+                    box1.addClass("bg-color");
+                    $(this).text("删除盒子1的类");
+                }
+            })
+
+            // 添加/删除单个类方式二
+            $("#add_single_class2").click(function () {
+                if (box1.hasClass("bg-color")) {
+                    // 有指定的类 移除
+                    box1.removeClass(function (index, value) {
+                        return "bg-color";
+                    });
+                    $(this).text("给盒子1添加类");
+                } else {
+                    // 没有指定的类  添加
+                    box1.addClass(function (index, value) {
+                        return "bg-color";
+                    });
+                    $(this).text("删除盒子1的类");
+                }
+            })
+
+            // 添加/删除多个类方式一
+            $("#add_multi_class1").click(function () {
+                if (box1.hasClass("bg-color color")) {
+                    // 有指定的类 移除
+                    box1.removeClass("bg-color color");
+                    $(this).text("给盒子1添加类");
+                } else {
+                    // 没有指定的类  添加
+                    box1.addClass("bg-color color");
+                    $(this).text("删除盒子1的类");
+                }
+            })
+
+            // 添加/删除多个类方式二
+            $("#add_multi_class2").click(function () {
+                if (box1.hasClass("bg-color color")) {
+                    // 有指定的类 移除
+                    box1.removeClass(function (index, value) {
+                        return "bg-color color";
+                    });
+                    $(this).text("给盒子1添加类");
+                } else {
+                    // 没有指定的类  添加
+                    box1.addClass(function (index, value) {
+                        return "bg-color color";
+                    });
+                    $(this).text("删除盒子1的类");
+                }
+            })
+
+            // 添加/删除单个类样式切换方式一 切换开关
+            var switch1 = null;
+            $("#toggle_class_switch1").change(function () {
+                switch1 = $(this).val();
+                if (switch1 == "开") {
+                    switch1 = true;
+                } else if (switch1 == "关") {
+                    switch1 = false;
+                } else {
+                    switch1 = null;
+                }
+            })
+            $("#add_single_class_toggle1").click(function () {
+                box1.toggleClass("bg-color", switch1);
+            })
+
+            // 添加/删除单个类样式切换方式二 切换开关
+            var switch2 = null;
+            $("#toggle_class_switch2").change(function () {
+                switch2 = $(this).val();
+                if (switch2 == "开") {
+                    switch2 = true;
+                } else if (switch2 == "关") {
+                    switch2 = false;
+                } else {
+                    switch2 = null;
+                }
+            })
+            $("#add_single_class_toggle2").click(function () {
+                box1.toggleClass(function (index, value) {
+                    return "bg-color";
+                }, switch2);
+            })
+
+            // 添加/删除多个类样式切换方式一 切换开关
+            var switch3 = null;
+            $("#toggle_class_switch3").change(function () {
+                switch3 = $(this).val();
+                if (switch3 == "开") {
+                    switch3 = true;
+                } else if (switch3 == "关") {
+                    switch3 = false;
+                } else {
+                    switch3 = null;
+                }
+            })
+            $("#add_multi_class_toggle1").click(function () {
+                box1.toggleClass("bg-color color", switch3);
+            })
+
+            // 添加/删除单个类样式切换方式二 切换开关
+            var switch4 = null;
+            $("#toggle_class_switch4").change(function () {
+                switch4 = $(this).val();
+                if (switch4 == "开") {
+                    switch4 = true;
+                } else if (switch4 == "关") {
+                    switch4 = false;
+                } else {
+                    switch4 = null;
+                }
+            })
+            $("#add_multi_class_toggle2").click(function () {
+                box1.toggleClass(function (index, value) {
+                    return "bg-color color";
+                }, switch4);
+            })
+        }
+
+        // 元素内容操作
+        contentOperation()
+        function contentOperation() {
+            // 获取元素内部的html内容
+            $("#btn_get_html").click(function () {
+                box1 = $("#box1");
+                var $html = box1
+                    .parent()
+                    .html();
+                alert($html);
+            })
+
+            // 设置元素内部的html内容方式一 在原有内容的基础上追加一个盒子
+            $("#btn_set_html1").click(function () {
+                // 设置完父盒子html内容以后要重新获取一下box1
+                box1 = $("#box1");
+
+                box_index++;
+
+                // 先获取原有内容
+                var $html = box1
+                    .parent()
+                    .html();
+
+                // 追加内容
+                var add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+                $html += add_box;
+
+                box1
+                    .parent()
+                    .html($html);
+            })
+
+            // 设置元素内部的html内容方式二 在原有内容的基础上追加一个盒子
+            $("#btn_set_html2").click(function () {
+                // 设置完父盒子html内容以后要重新获取一下box1
+                box1 = $("#box1");
+
+                box_index++;
+
+                // 先获取原有内容
+                var $html = box1
+                    .parent()
+                    .html();
+
+                // 追加内容
+                var add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+                $html += add_box;
+
+                box1
+                    .parent()
+                    .html(function (index, value) {
+                        return $html;
+                    });
+            })
+
+            // 获取元素内部的text内容
+            $("#btn_get_text").click(function () {
+                // 设置完父盒子text内容以后要重新获取一下box1
+                box1 = $("#box1");
+
+                var $text = box1
+                    .parent()
+                    .text();
+                alert($text);
+            })
+
+            // 设置元素内部的text内容方式一
+            $("#btn_set_text1").click(function () {
+                box1 = $("#box1");
+
+                // 先获取内部text
+                var $text = box1
+                    .parent()
+                    .text();
+
+                // 添加新的内容
+                $text += "新添加的text内容";
+
+                // 设置text
+                box1
+                    .parent()
+                    .text($text);
+            })
+
+            // 设置元素内部的text内容方式二
+            $("#btn_set_text2").click(function () {
+                box1 = $("#box1");
+
+                // 先获取内部text
+                var $text = box1
+                    .parent()
+                    .text();
+
+                // 添加新的内容
+                $text += "新添加的text内容";
+
+                // 设置text
+                box1
+                    .parent()
+                    .text(function (index, value) {
+                        return $text;
+                    });
+            })
+
+            // 获取输入框内部的值
+            $("#btn_get_value").click(function () {
+                var $val = $("#input").val();
+                alert($val);
+            })
+
+            // 设置输入框内部的value值 方式一
+            $("#btn_set_value1").click(function () {
+                $("#input").val(["新设置的输入框内容"]);
+            })
+
+            // 设置输入框内部的value值 方式二
+            $("#btn_set_value2").click(function () {
+                $("#input").val(function (index, value) {
+                    return "新设置的输入框内容";
+                });
+            })
+
+            // 获取单选下拉列表的value
+            $("#btn_get_single_select").click(function () {
+                alert($("#select_single").val());
+            })
+
+            // 设置单选下拉列表的value方式一
+            $("#btn_set_single_select1").click(function () {
+                $("#select_single").val("重庆");
+            })
+
+            // 设置单选下拉列表的value方式二
+            $("#btn_set_single_select2").click(function () {
+                $("#select_single").val(function () {
+                    return "重庆"
+                });
+            })
+
+            // 获取多选下拉列表的value
+            $("#btn_get_multi_select").click(function () {
+                alert($("#select_multi").val());
+            })
+
+            // 设置多选下拉列表的value方式一
+            $("#btn_set_multi_select1").click(function () {
+                $("#select_multi").val(["香蕉", "橘子"]);
+            })
+
+            // 设置多选下拉列表的value方式二
+            $("#btn_set_multi_select2").click(function () {
+                $("#select_multi").val(function (index, value) {
+                    return ["香蕉", "橘子"]
+                });
+            })
+
+            // 获取单选按钮的value
+            $("#btn_get_radio").click(function () {
+                alert($("input[type='radio']").val());
+            })
+
+            // 设置单选按钮选中天津方式一
+            $("#btn_set_radio1").click(function () {
+                $("input[type='radio']").val(["天津"]);
+            })
+
+            // 设置单选按钮选中天津方式二
+            $("#btn_set_radio2").click(function () {
+                $("input[type='radio']").val(function (index, value) {
+                    return ["天津"]
+                });
+            })
+
+            // 获取多选按钮的value
+            $("#btn_get_checkbox").click(function () {
+                alert($("input[type='checkbox']").val());
+            })
+
+            // 设置多选按钮选中天津方式一
+            $("#btn_set_checkbox1").click(function () {
+                $("input[type='checkbox']").val(["香蕉", "橙子"]);
+            })
+
+            // 设置多选按钮选中天津方式二
+            $("#btn_set_checkbox2").click(function () {
+                $("input[type='checkbox']").val(function (index, value) {
+                    return ["香蕉", "橙子"];
+                });
+            })
+        }
+
+        // 属性操作
+        attrOperation();
+        function attrOperation(){
+            // 获取属性值
+            $("#btn_get_attr").click(function(){
+                alert($("#input").attr("value"));
+            })
+
+            // 设置单个属性方式一
+            $("#btn_set_attr1").click(function(){
+                $("#input").attr("value","改变后的文本");
+            })
+
+            // 设置单个属性方式二
+            $("#btn_set_attr2").click(function(){
+                $("#input").attr("value",function(){
+                    return "改变后的文本";
+                });
+            })
+
+            // 设置多个属性
+            $("#btn_set_attr3").click(function(){
+                $("#input").attr({
+                    type: "button",
+                    value: "输入框变为按钮"
+                });
+            })
+
+            // 删除属性
+            $("#btn_remove_attr").click(function(){
+                $("#input").removeAttr("value");
+            })
+
+            // 获取属性
+            $("#btn_get_prop").click(function(){
+                alert($("#input").prop("value"));
+            })
+
+            // 设置属性方式一
+            $("#btn_set_prop1").click(function(){
+                $("#input").prop("value","修改后的文本内容");
+            })
+
+            // 设置属性方式二
+            $("#btn_set_prop2").click(function(){
+                $("#input").prop("value",function(){
+                    return "修改后的文本内容";
+                });
+            })
+
+            // 设置多个属性
+            $("#btn_set_prop3").click(function(){
+                $("#input").prop({
+                    type: "button",
+                    value: "输入框变按钮"
+                })
+            })
+
+            // 删除属性
+            $("#btn_remove_prop").click(function(){
+                $("#input").removeProp("value");
+            })
+        }
+
+        // 文档节点操作 内部插入
+        appendInner();
+        function appendInner() {
+            // 最后面追加盒子方式一
+            $("#btn_append1").click(function () {
+                // 防止添加的盒子跑到浏览器外面
+                addLineFeed();
+
+                box_index++;
+
+                // 要添加的盒子
+                var $add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+                // 添加盒子
+                box.append($add_box);
+
+            })
+
+            // 最后面追加盒子方式二
+            $("#btn_append2").click(function () {
+                // 防止添加的盒子跑到浏览器外面
+                addLineFeed();
+
+                box_index++;
+
+                // 要添加的盒子
+                var $add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+                // 添加盒子
+                box.append(function (inde, value) {
+                    return $add_box;
+                });
+            })
+
+            // 移动盒子到最后
+            $("#btn_appendTo").click(function () {
+                box1.appendTo(box);
+            })
+
+            // 前面添加盒子方式一
+            $("#btn_prepend1").click(function () {
+                // 防止添加的盒子跑到浏览器外面
+                addLineFeed();
+
+                box_index++;
+
+                // 要添加的盒子
+                var $add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+                // 添加盒子
+                box.prepend($add_box);
+            })
+
+            // 前面添加盒子方式二
+            $("#btn_prepend2").click(function () {
+                // 防止添加的盒子跑到浏览器外面
+                addLineFeed();
+
+                box_index++;
+
+                // 要添加的盒子
+                var $add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+                // 添加盒子
+                box.prepend(function () {
+                    return $add_box;
+                });
+            })
+
+            // 把盒子移到最前面
+            $("#btn_prependTo").click(function () {
+                // 获取最后一个盒子
+                var last_box = $(".show-box").last();
+
+                // 盒子前置
+                last_box.prependTo(box);
+            })
+        }
+
+        // 外部插入
+        appendOuter();
+        function appendOuter() {
+            // 盒子后面添加兄弟盒子方式一
+            $("#btn_after1").click(function () {
+                // 防止添加的盒子跑到浏览器外面
+                addLineFeed();
+
+                box_index++;
+
+                // 要添加的盒子
+                var $add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+
+                // 添加兄弟盒子
+                box1.after($add_box);
+            })
+
+            // 盒子后面添加兄弟盒子方式二
+            $("#btn_after2").click(function () {
+                // 防止添加的盒子跑到浏览器外面
+                addLineFeed();
+
+                box_index++;
+
+                // 要添加的盒子
+                var $add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+
+                // 添加兄弟盒子
+                box1.after(function (index, value) {
+                    return $add_box;
+                });
+            })
+
+            // 盒子后面添加兄弟盒子方式三
+            $("#btn_after3").click(function () {
+                // 防止添加的盒子跑到浏览器外面
+                addLineFeed();
+
+                box_index++;
+
+                // 要添加的盒子 JS对象
+                var add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+
+                // JS对象转换成jQuery对象(不转换无法调用insertAfter方法)
+                var $add_box = $(add_box);
+
+                // 添加兄弟盒子
+                $add_box.insertAfter(box1);
+            })
+
+            // 盒子前面添加兄弟盒子方式一
+            $("#btn_before1").click(function () {
+                // 防止添加的盒子跑到浏览器外面
+                addLineFeed();
+
+                box_index++;
+
+                // 要添加的盒子
+                var $add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+
+                // 添加兄弟盒子
+                box1.before($add_box);
+            })
+
+            // 盒子前面添加兄弟盒子方式二
+            $("#btn_before2").click(function () {
+                // 防止添加的盒子跑到浏览器外面
+                addLineFeed();
+
+                box_index++;
+
+                // 要添加的盒子
+                var $add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+
+                // 添加兄弟盒子
+                box1.before(function (index, value) {
+                    return $add_box;
+                });
+            })
+
+            // 盒子前面添加兄弟盒子方式三
+            $("#btn_before3").click(function () {
+                // 防止添加的盒子跑到浏览器外面
+                addLineFeed();
+
+                box_index++;
+
+                // 要添加的盒子 JS对象
+                var add_box = "<div class='show-box'>盒子" + box_index + "</div>";
+
+                // JS对象转换成jQuery对象
+                var $add_box = $(add_box);
+
+                // 添加兄弟盒子
+                $add_box.insertBefore(box1);
+            })
+        }
+
+        
+        // 元素相互包裹
+        wrapOperation();
+        function wrapOperation(){
+            // 盒子包裹 方式一
+            $("#btn_wrap1").click(function(){
+                $("#lit_box1").wrap($("#big_box1"));
+            })
+
+            // 盒子包裹 方式二
+            $("#btn_wrap2").click(function(){
+                $("#lit_box1").wrap(function(){
+                    return $("#big_box1");
+                });
+            })
+
+            // 批量包裹
+            $("#btn_wrap_all").click(function(){
+                $("#lit_box1,#lit_box3").wrapAll($("#big_box1"));
+            })
+
+            // 内容包裹方式一
+            $("#btn_wrapinner1").click(function(){
+                $("#lit_box1,#lit_box3").wrapInner("<strong></strong>");
+            })
+
+            // 内容包裹方式二
+            $("#btn_wrapinner2").click(function(){
+                $("#lit_box1,#lit_box3").wrapInner(function(){
+                    return "<strong></strong>";
+                });
+            })
+
+            // 去掉外部包裹盒子
+            $("#btn_unwrap").click(function(){
+                $("#lit_box2").unwrap();
+            })
+        }
+
+        // 元素替换
+        replaceOperation();
+        function replaceOperation(){
+            // 替换掉指定元素方式一
+            $("#btn_replace1").click(function(){
+                $("#big_box1").replaceWith($("#lit_box1"));
+            })
+            
+            // 替换掉指定元素方式二
+            $("#btn_replace2").click(function(){
+                $("#big_box1").replaceWith(function(){
+                    return $("#lit_box1");
+                });
+            })  
+
+            // 替换通过选择器查找到的所有元素
+            $("#btn_replace_all").click(function(){
+                $("#big_box1").replaceAll(".margin-top20 .lit-box");
+            })
+        }
+
+        // 删除元素
+        deleteOperation()
+        function deleteOperation(){
+            // 删除大盒子2里面的所有内容
+            $("#btn_empty").click(function(){
+                $("#big_box2").empty();
+            })
+
+            // 删除元素
+            $("#btn_remove1").click(function(){
+                $(".margin-top20 .lit-box").remove();
+            })
+
+            // 删除符合指定条件的元素
+            $("#btn_remove2").click(function(){
+                $(".margin-top20 .lit-box").remove("#lit_box1,#lit_box3");
+            })
+        }
+
+        // 元素克隆
+        cloneOperation()
+        function cloneOperation(){
+            // 给要克隆的盒子添加点击事件
+            $("#big_box1").click(function(){alert("点击大盒子1")});
+            $("#lit_box2").click(function(){alert("点击小盒子2")});
+
+            // 浅复制,只复制元素本身,不会复制绑定的事件和数据
+            $("#btn_clone1").click(function(){
+                $("#big_box1").parent().append($("#big_box1").clone());
+            })
+
+            // 深复制,同时复制元素绑定的事件和数据
+            $("#btn_clone2").click(function(){
+                $("#big_box1").parent().append($("#big_box1").clone(true));
+            })
+            
+        }
+
+        // 添加盒子如果超出浏览器外 自动换行
+        function addLineFeed() {
+            // 计算剩余宽度
+            var sy_width = $(document).width() - $("#outer_box .show-box")
+                .last()
+                .offset()
+                .left - 100;
+
+            // 如果添加盒子宽度不够 换行
+            if (sy_width < 105) {
+                var $html = $("#outer_box").html();
+                $html += "<br>";
+                $("#outer_box").html($html);
+            }
+
+            // 设置效果延时取居中
+            displayZoneCenter();
+        }
+
+        // 设置效果演示区居中
+        function displayZoneCenter() {
+            var $top = ($(window).innerHeight() - $(".container_box").height()) / 2;
+            $(".container_box").css("top", $top);
+        }
+    })
+</script>

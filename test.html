@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>测试用例</title>
+        <style type="text/css">
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+			body {
+				height: 2000px;
+			}
+
+			.outerbox {
+				width: 200px;
+				height: 200px;
+				background: blue;
+				padding-top: 20px;
+			}
+
+			.box {
+				width: 100px;
+				height: 100px;
+				background-color: red;
+				padding: 10px;
+			}
+
+            button {
+                margin: 5px;
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="btn1">按钮1</button>
+		<button id="btn2">按钮2</button>
+		<button id="btn3">按钮3</button>
+		<div class="outerbox">
+				<div class="box" id="box">
+
+					</div>
+		</div>
+        
+    </body>
+</html>
+<script src="./jQuery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var $box = $("#box");
+        var $lit_box = $("#lit_box");
+
+		var jq;
+        $("#btn1").click(function () {
+			jq = jQuery.noConflict();
+		})
+
+		$("#btn2").click(function () {
+			jQuery.noConflict();
+		})
+
+		$("#btn3").click(function(){
+			jQuery(".outerbox").click(function(){
+					alert(222);
+				})
+		})
+		
+    })
+</script>

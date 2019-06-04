@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>jQuery位置、尺寸相关</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                padding: 20px;
+            }
+
+            h4 {
+                margin-top: 20px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 3px;
+                margin: 5px;
+            }
+
+            span {
+                font-size: 12px;
+            }
+
+            .right {
+                width: 20%;
+                float: right;
+            }
+
+            .container-box {
+                width: 100%;
+                overflow: hidden;
+                position: fixed;
+                top: 100px;
+            }
+
+            .show-box {
+                width: 150px;
+                height: 150px;
+                line-height: 150px;
+                border: 1px dashed #ccc;
+                display: inline-block;
+                text-align: center;
+                font-size: 14px;
+                margin: 5px;
+                overflow: hidden;
+            }
+
+            .scroll-box {
+                width: 150px;
+                height: 200px;
+                overflow: scroll;
+                line-height: 30px;
+            }
+
+            .box {
+                margin-left: 20px;
+            }
+
+            /* 完整语法格式 */
+            .full-syntax {
+                color: red;
+            }
+
+            /* 当前所用语法 */
+            .current-syntax {
+                color: blue;
+            }
+
+            /* 废弃版本 */
+            .abandoned-syntax {
+                color: green;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="right" class="right">
+            <div class="container-box">
+                <div class="show-box" id="show_box1" style="padding: 5px">盒子1</div>
+                <div class="show-box" id="show_box2">盒子2</div>
+                <br>
+                <div id="scroll_box" class="scroll-box show-box">
+                    <p>滚动文字1</p>
+                    <p>滚动文字2</p>
+                    <p>滚动文字3</p>
+                    <p>滚动文字4</p>
+                    <p>滚动文字5</p>
+                    <p>滚动文字6</p>
+                    <p>滚动文字7</p>
+                    <p>滚动文字8</p>
+                    <p>滚动文字9</p>
+                    <p>滚动文字10</p>
+                    <p>滚动文字11</p>
+                    <p>滚动文字12</p>
+                    <p>滚动文字13</p>
+                    <p>滚动文字14</p>
+                    <p>滚动文字15</p>
+                </div>
+            </div>
+
+        </div>
+
+        <span class ="full-syntax">红色标记完整语法，蓝色标记当前示例所用语法，"[]"内部参数表示可选参数</span>
+        <h4>1. 位置</h4>
+        <div class="box">
+            <div>
+                获取元素相对浏览器窗口的位置:
+                <span class="full-syntax">.offset([{left:leftValue, top:topValue}/fn])</span>
+                <button id="btn_get_offset">获取盒子1和盒子2相对于浏览器窗口的位置</button>
+                <span class="current-syntax">.offset()</span>
+            </div>
+
+            <div>
+                设置元素相对浏览器窗口的位置方式一(设置以后元素变为相对定位):
+                <span class="full-syntax">.offset([{left:leftValue, top:topValue}/fn])</span>
+                <button id="btn_set_offset1">设置盒子1和盒子2向右移动50像素</button>
+                <span class="current-syntax">.offset({left:leftValue,top:topValue})</span>
+            </div>
+
+            <div>
+                设置元素相对浏览器窗口的位置方式二(设置以后元素变为相对定位):
+                <span class="full-syntax">.offset([{left:leftValue, top:topValue}/fn])</span>
+                <button id="btn_set_offset2">设置盒子1和盒子2向右移动50像素</button>
+                <span class="current-syntax">.offset(function(index,oldOffset){return {left:leftValue, top:topValue}})</span>
+            </div>
+
+            <div>
+                获取元素相对定位父元素的位置(不包含margin值):
+                <span class="full-syntax">.position()</span>
+                <button id="btn_get_position">获取盒子1和盒子2相对父盒子的位置</button>
+                <span class="current-syntax">.position()</span>
+            </div>
+
+            <div>
+                获取带滚动条元素滚动条距离元素上边缘的距离:
+                <span class="full-syntax">.scrollTop([value/fn])</span>
+                <button id="btn_get_scroll">获取可滚动盒子滚动条上边距离</button>
+                <span class="current-syntax">.scrollTop()</span>
+            </div>
+
+            <div>
+                设置带滚动条的元素滚动条距离上边缘的位置方式一:
+                <span class="full-syntax">.scrollTop([value/fn])</span>
+                <button id="btn_set_scroll1">设置可滚动盒子滚动条下移100像素</button>
+                <span class="current-syntax">.scrollTop(topValue)</span>
+            </div>
+
+            <div>
+                设置带滚动条的元素滚动条距离上边缘的位置方式二:
+                <span class="full-syntax">.scrollTop([value/fn])</span>
+                <button id="btn_set_scroll2">设置可滚动盒子滚动条下移100像素</button>
+                <span class="current-syntax">.scrollTop(function(index,oldTop){return topValue})</span>
+            </div>
+
+            <div>
+                获取/设置滚动条距离左边缘距离.scrollLeft()用法同.scrollTop()
+            </div>
+
+        </div>
+
+        <h4>2. 尺寸</h4>
+        <div class="box">
+            <div>
+                获取元素的宽(不包含border和padding):
+                <span class="full-syntax">.width([value/fn])</span>
+                <button id="btn_get_width">获取盒子1的宽度</button>
+                <span class="current-syntax">.width()</span>
+            </div>
+
+            <div>
+                设置元素的宽方式一:
+                <span class="full-syntax">.width([value/fn])</span>
+                <button id="btn_set_width1">设置盒子1的宽度加50像素</button>
+                <span class="current-syntax">.width(value)</span>
+            </div>
+
+            <div>
+                设置元素的宽方式二:
+                <span class="full-syntax">.width([value/fn])</span>
+                <button id="btn_set_width2">设置盒子1的宽度加50像素</button>
+                <span class="current-syntax">.width(function(index,oldWidth){return value)</span>
+            </div>
+
+            <div>
+                获取/设置元素的高度.height()用法同.width()
+            </div>
+
+            <div>
+                获取元素的宽度(包含padding，不包含border):
+                <span class="full-syntax">.innerWidth([value/fn])</span>
+                <button id="btn_get_innerWidth">获取盒子1的宽度</button>
+                <span class="current-syntax">.innerWidth()</span>
+            </div>
+
+            <div>
+                设置元素的宽度方式一:
+                <span class="full-syntax">.innerWidth([value/fn])</span>
+                <button id="btn_set_innerWidth1">设置盒子1的宽度为200像素</button>
+                <span class="current-syntax">.innerWidth(value)</span>
+            </div>
+
+            <div>
+                设置元素的宽度方式二:
+                <span class="full-syntax">.innerWidth([value/fn])</span>
+                <button id="btn_set_innerWidth2">设置盒子1的宽度为200像素</button>
+                <span class="current-syntax">.innerWidth(function(){return value})</span>
+            </div>
+
+            <div>
+                获取/设置元素的高度.innerHeight()用法同.innerWidth()
+            </div>
+
+            <div>
+                获取元素的宽度(包含border、padding 不包含margin):
+                <span class="full-syntax">.outerWidth([isContainMargin/value/fn])</span>
+                <button id="btn_get_outer_width1">获取盒子1宽度</button>
+                <span class="current-syntax">.outerWidth()</span>
+            </div>
+
+            <div>
+                获取元素的宽度(包含border、padding和margin):
+                <span class="full-syntax">.outerWidth([isContainMargin/value/fn])</span>
+                <button id="btn_get_outer_width2">获取盒子1宽度</button>
+                <span class="current-syntax">.outerWidth(isContainMargin)</span>
+            </div>
+
+            <div>
+                设置元素的宽度方式一:
+                <span class="full-syntax">.outerWidth([isContainMargin/value/fn])</span>
+                <button id="btn_set_outerWidth1">设置盒子1的宽度为200像素</button>
+                <span class="current-syntax">.outerWidth(value)</span>
+            </div>
+
+            <div>
+                设置元素的宽度方式二:
+                <span class="full-syntax">.outerWidth([isContainMargin/value/fn])</span>
+                <button id="btn_set_outerWidth2">设置盒子1的宽度为200像素</button>
+                <span class="current-syntax">.outerWidth(function(){return value})</span>
+            </div>
+
+            <div>
+                获取/设置元素的高度.outerHeight()用法同.outerWidth()
+            </div>
+
+            <div>
+                获取window的宽度和高度:
+                <button id="btn_get_window_size1">获取window的宽度和高度</button>
+                <span>$(window).width() $(window).height()</span>
+            </div>
+
+            <div>
+                获取window的宽度和高度:
+                <button id="btn_get_window_size2">获取window的宽度和高度</button>
+                <span>$(window).innerWidth() $(window).innerHeight()</span>
+            </div>
+
+            <div>
+                获取window的宽度和高度:
+                <button id="btn_get_window_size3">获取window的宽度和高度</button>
+                <span>$(window).outerWidth() $(window).outerHeight()</span>
+            </div>
+
+            <div>
+                获取document的宽度和高度:
+                <button id="btn_get_document_size1">获取document的宽度和高度</button>
+                <span>$(document).width() $(document).height()</span>
+            </div>
+
+            <div>
+                获取document的宽度和高度:
+                <button id="btn_get_document_size2">获取document的宽度和高度</button>
+                <span>$(document).innerWidth() $(document).innerHeight()</span>
+            </div>
+
+            <div>
+                获取document的宽度和高度:
+                <button id="btn_get_document_size3">获取document的宽度和高度</button>
+                <span>$(document).outerWidth() $(document).outerHeight()</span>
+            </div>
+        </div>
+
+    </body>
+</html>
+<script src="./jquery-3.4.1.min.js"></script>
+<script>
+    $(function () {
+        // 效果展示盒子
+        var $box1 = $("#show_box1");
+        var $box2 = $("#show_box2");
+
+        // 位置
+        position();
+        function position() {
+            // 获取元素相对浏览器窗口的位置
+            $("#btn_get_offset").click(function () {
+                var result1 = "盒子1位置:\n左:" + $box1
+                    .offset()
+                    .left + "px  上:" + $box1
+                    .offset()
+                    .top + "px\n";
+                var result2 = "盒子2位置:\n左:" + $box2
+                    .offset()
+                    .left + "px  上:" + $box2
+                    .offset()
+                    .top + "px";
+                alert(result1 + result2);
+            })
+
+            // 设置元素相对浏览器窗口的位置方式一
+            $("#btn_set_offset1").click(function () {
+                $box1.offset({
+                    left: $box1
+                        .offset()
+                        .left + 50,
+                    top: $box1
+                        .offset()
+                        .top
+                });
+                $box2.offset({
+                    left: $box2
+                        .offset()
+                        .left + 50,
+                    top: $box2
+                        .offset()
+                        .top
+                });
+            })
+
+            // 设置元素相对浏览器窗口的位置方式二
+            $("#btn_set_offset2").click(function () {
+                $(".show-box").offset(function (index, oldOffset) {
+                    return {
+                        left: oldOffset.left + 50,
+                        top: oldOffset.top
+                    };
+                });
+            })
+
+            // 获取元素相对父元素的位置
+            $("#btn_get_position").click(function () {
+                var result1 = "盒子1位置:\n左:" + $box1
+                    .position()
+                    .left + "px  上:" + $box1
+                    .position()
+                    .top + "px\n";
+                var result2 = "盒子2位置:\n左:" + $box2
+                    .position()
+                    .left + "px  上:" + $box2
+                    .position()
+                    .top + "px";
+                alert(result1 + result2);
+            })
+
+            // 获取元素相对滚动条的位置
+            $("#btn_get_scroll").click(function () {
+                var $scroll_box = $("#scroll_box");
+                alert("滚动盒子2上边相对于滚动条的位置:" + $scroll_box.scrollTop() + "px");
+            })
+
+            // 设置带滚动条的元素滚动条距离上边缘的位置方式一
+            $("#btn_set_scroll1").click(function () {
+                var $scroll_top = $("#scroll_box");
+                $scroll_top.scrollTop($scroll_top.scrollTop() + 100);
+            })
+
+            // 设置带滚动条的元素滚动条距离上边缘的位置方式二
+            $("#btn_set_scroll2").click(function () {
+                $("#scroll_box").scrollTop(function (index, oldTop) {
+                    return oldTop + 100;
+                });
+            })
+
+        }
+
+        // 尺寸
+        forSize();
+        function forSize() {
+            // 获取元素的宽度(不包含border和padding)
+            $("#btn_get_width").click(function () {
+                alert("盒子1的宽度(不包含border和padding):" + $("#show_box1").width() + "px");
+            })
+
+            // 设置元素的宽方式一:
+            $("#btn_set_width1").click(function () {
+                var $show_box1 = $("#show_box1");
+                $show_box1.width($show_box1.width() + 50);
+            })
+
+            // 设置元素的宽方式二:
+            $("#btn_set_width2").click(function () {
+                var $show_box1 = $("#show_box1");
+                $show_box1.width(function (index, oldWidth) {
+                    return oldWidth + 50;
+                });
+            })
+
+            // 获取元素的宽度(包含padding 不包含border)
+            $("#btn_get_innerWidth").click(function () {
+                alert("盒子1的宽度(包含padding，不包含border):" + $("#show_box1").innerWidth() + "px");
+            })
+
+            // 设置盒子宽度方式一
+            $("#btn_set_innerWidth1").click(function () {
+                $("#show_box1").innerWidth(200);
+            })
+
+            // 设置盒子宽度方式二
+            $("#btn_set_innerWidth2").click(function () {
+                $("#show_box1").innerWidth(function () {
+                    return 200;
+                });
+            })
+
+            // 获取元素的宽度(包含padding、border 不包含margin)
+            $("#btn_get_outer_width1").click(function () {
+                alert("盒子1的宽度(包含padding和border):" + $("#show_box1").outerWidth() + "px");
+            })
+
+            // 获取元素的宽度(包含border、padding 包含margin)
+            $("#btn_get_outer_width2").click(function () {
+                alert("盒子1的宽度(包含padding和border):" + $("#show_box1").outerWidth(true) + "px");
+            })
+
+            // 设置盒子宽度方式一
+            $("#btn_set_outerWidth1").click(function () {
+                $("#show_box1").outerWidth(200);
+            })
+
+            // 设置盒子宽度方式二
+            $("#btn_set_outerWidth2").click(function () {
+                $("#show_box1").outerWidth(function () {
+                    return 200;
+                });
+            })
+
+            // 获取window的宽度和高度
+            $("#btn_get_window_size1").click(function () {
+                var $width = $(window).width();
+                var $height = $(window).height();
+                alert("window\n宽:" + $width + "px\n高:" + $height + "px");
+            })
+
+            // 获取window的宽度和高度
+            $("#btn_get_window_size2").click(function () {
+                var $width = $(window).innerWidth();
+                var $height = $(window).innerHeight();
+                alert("window\n宽:" + $width + "px\n高:" + $height + "px");
+            })
+
+            // 获取window的宽度和高度
+            $("#btn_get_window_size3").click(function () {
+                var $width = $(window).outerWidth();
+                var $height = $(window).outerHeight();
+                alert("window\n宽:" + $width + "px\n高:" + $height + "px");
+            })
+
+            // 获取document的宽度和高度
+            $("#btn_get_document_size1").click(function () {
+                var $width = $(document).width();
+                var $height = $(document).height();
+                alert("document\n宽:" + $width + "px\n高:" + $height + "px");
+            })
+
+            // 获取document的宽度和高度
+            $("#btn_get_document_size2").click(function () {
+                var $width = $(document).innerWidth();
+                var $height = $(document).innerHeight();
+                alert("document\n宽:" + $width + "px\n高:" + $height + "px");
+            })
+
+            // 获取document的宽度和高度
+            $("#btn_get_document_size3").click(function () {
+                var $width = $(document).outerWidth();
+                var $height = $(document).outerHeight();
+                alert("document\n宽:" + $width + "px\n高:" + $height + "px");
+            })
+        }
+    })
+</script>
