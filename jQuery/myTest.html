@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">点击</button>
+</body>
+</html>
+<script src="./jquery-3.4.1.min.js"></script>
+<script>
+    $(function(){
+        $("#btn").click(function(){
+            $.ajax({
+                url: "test1.php",
+                type: "get",
+                success: function(data){
+                    console.log("请求成功:" + JSON.stringify(data));
+                },
+                error: function(){
+                    console.log("请求失败");
+                }
+			})
+			
+			// $.ajax({
+            //     url: "http://apis.juhe.cn/simpleWeather/query?key=d19e809c098780def41f3be0921aaef2&city=1",
+            //     type: "GET",
+			// 	dataType: "jsonp",
+			// 	contentType: "application/json",
+            //     success: function(data){
+            //         console.log("请求成功:" + data);
+            //     },
+            //     error: function(){
+            //         console.log("请求失败");
+            //     }
+            // })
+        })
+    })
+</script>

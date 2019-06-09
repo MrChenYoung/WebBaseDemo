@@ -5,21 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
         <title>jQuery动画</title>
+        <link rel="stylesheet" href="./jQuery-common.css">
         <style>
-            button {
-                font-size: 14px;
-                padding: 3px;
-                margin: 5px;
-            }
-
-            span {
-                font-size: 12px;
-            }
-
-            .right {
-                width: 50%;
-                float: right;
-            }
             .animater {
                 width: 300px;
                 height: 300px;
@@ -52,22 +39,6 @@
             }
             .b {
                 bottom: 0;
-            }
-
-            /* 完整语法格式 */
-            .full-syntax {
-                color: red;
-            }
-
-            /* 当前所用语法 */
-            .current-syntax {
-                color: blue;
-            }
-
-            /* 废弃版本 */
-            .abandoned-syntax {
-                color: green;
-                font-size: 12px;
             }
         </style>
     </head>
@@ -105,8 +76,7 @@
             <option value="false">否</option>
         </select>
 
-
-        <p class ="full-syntax" style="font-size: 14px">红色标记完整语法，蓝色标记当前示例所用语法，"[]"内部参数表示可选参数</p>
+        <p class="full-syntax" style="font-size: 14px">红色标记完整语法，蓝色标记当前示例所用语法，"[]"内部参数表示可选参数</p>
         <h4>1. 显示/隐藏动画</h4>
         <div>
             <button id="btn_show1">动画隐藏</button>
@@ -181,27 +151,31 @@
 
         // 动画速度
         var animate_speed = null;
-        $("#animate_speed").change(function(){
+        $("#animate_speed").change(function () {
             animate_speed = $(this).val();
-            if (!animate_speed) animate_speed = null;
-        })
+            if (!animate_speed) 
+                animate_speed = null;
+            }
+        )
 
         // 动画效果
         var animate_xg = null;
-        $("#animate_xg").change(function(){
+        $("#animate_xg").change(function () {
             animate_xg = $(this).val();
-            if(!animate_xg) animate_xg = null;
-        })
+            if (!animate_xg) 
+                animate_xg = null;
+            }
+        )
 
         // 动画完成提醒
         var animate_complete = null;
-        $("#animate_warn").change(function(){
+        $("#animate_warn").change(function () {
             animate_complete = $(this).val();
-            if(animate_complete == "true"){
-                animate_complete = function(){
+            if (animate_complete == "true") {
+                animate_complete = function () {
                     alert("动画完成");
                 }
-            }else {
+            } else {
                 animate_complete = null;
             }
         })
@@ -223,35 +197,35 @@
         // 滑动动画
         $("#btn_slide").click(function () {
             if ($animater.is(":hidden")) {
-                $animater.slideDown(animate_speed,animate_xg,animate_complete);
+                $animater.slideDown(animate_speed, animate_xg, animate_complete);
                 $(this).text("上拉隐藏");
             } else {
-                $animater.slideUp(animate_speed,animate_xg,animate_complete);
+                $animater.slideUp(animate_speed, animate_xg, animate_complete);
                 $(this).text("下拉显示");
             }
         });
         $("#btn_slideToggle").click(function () {
-            $animater.slideToggle(animate_speed,animate_xg,animate_complete);
+            $animater.slideToggle(animate_speed, animate_xg, animate_complete);
         });
 
         // 淡入淡出动画
         $("#btn_fade").click(function () {
             if ($animater.is(":hidden")) {
-                $animater.fadeIn(animate_speed,animate_xg,animate_complete);
+                $animater.fadeIn(animate_speed, animate_xg, animate_complete);
                 $(this).text("淡入");
             } else {
-                $animater.fadeOut(animate_speed,animate_xg,animate_complete);
+                $animater.fadeOut(animate_speed, animate_xg, animate_complete);
                 $(this).text("淡出");
             }
         });
         $("#btn_fadeSloggle").click(function () {
-            $animater.fadeToggle(animate_speed,animate_xg,animate_complete);
+            $animater.fadeToggle(animate_speed, animate_xg, animate_complete);
         });
         $("#btn_fadeTo").click(function () {
             if ($animater.css("opacity") < 1) {
-                $animater.fadeTo(animate_speed,1,animate_xg,animate_complete);
+                $animater.fadeTo(animate_speed, 1, animate_xg, animate_complete);
             } else {
-                $animater.fadeTo(animate_speed,0.5,animate_xg,animate_complete);
+                $animater.fadeTo(animate_speed, 0.5, animate_xg, animate_complete);
             }
         });
 
@@ -261,7 +235,7 @@
                 width: 'toggle',
                 height: 'toggle',
                 opacity: 'toggle'
-            }, animate_speed,animate_xg,animate_complete);
+            }, animate_speed, animate_xg, animate_complete);
         })
 
         // 控制动画执行
@@ -271,7 +245,7 @@
                     width: 100,
                     height: 100,
                     opacity: 0.5
-                }, animate_speed,animate_xg,animate_complete)
+                }, animate_speed, animate_xg, animate_complete)
                 .stop(false, true);
         })
 
@@ -283,7 +257,7 @@
                     width: 100,
                     height: 100,
                     opacity: 0.5
-                }, animate_speed,animate_xg,animate_complete);
+                }, animate_speed, animate_xg, animate_complete);
         })
 
         // 快速执行完动画并清空后续动画
@@ -293,7 +267,7 @@
                     width: 100,
                     height: 100,
                     opacity: 0.5
-                }, animate_speed,animate_xg,animate_complete)
+                }, animate_speed, animate_xg, animate_complete)
                 .animate({width: 300, height: 200, opacity: 1.0})
                 .finish();
         })
