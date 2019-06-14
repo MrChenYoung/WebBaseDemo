@@ -440,7 +440,7 @@
             </div>
 
             <div>
-                查找所有符合条件的子元素:
+                查找所有符合条件的后代元素:
                 <span class ="full-syntax">.find(selector)</span>
                 <button id="btn_find_selector2">设置所有div内的p标签背景色</button>
                 <span class ="current-syntax">$("div").find("p")</span>
@@ -890,7 +890,7 @@
                     .css("color", "orange");
             })
 
-            // 查找所有符合条件的子元素
+            // 查找所有符合条件的后代元素
             $("#btn_find_selector2").click(function () {
                 $("div")
                     .find("p")

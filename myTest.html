@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn1">按钮1</button>
+    <button id="btn2">按钮2</button>
+    <button id="btn3">按钮3</button>
+    <button id="btn4">按钮4</button>
+    <button id="btn5">按钮5</button>
+
+    <div id="box" class="box">    
+    </div>
+</body>
+</html>
+<script src="./jquery-3.4.1.min.js"></script>
+<script src="./test1.js"></script>
+<script src="./test2.js"></script>
+<script>
+    $(function(){
+        $("#btn1").click(function(){
+
+            var result = $.ajax({
+                url: "./php/weather.php?key=d19e809c098780def41f3be0921aaef2&city=1",
+                type: "get",
+                async: true,
+                // data: {key: "b2ae6c8199202c22841bbb1a76098b68", pno:1, ps:5, dtype:"json"},
+                // dataType: "json",
+                beforeSend: function(request){
+                    // request.setRequestHeader("content-type","application/json");
+                },
+                success: function(data){
+                    // console.log("请求成功:" + typeof(jQuery.parseJSON(data)));
+                    // console.log("请求成功:" + jQuery.parseJSON(data));
+
+                    console.log("请求成功:" + typeof(data));
+                    console.log("请求成功:" + JSON.stringify(data));
+                },
+                error: function(jqXHR, textStatus, errorThrown){  
+                    // 请求出错
+                    console.log("请求失败");
+                    console.log("请求对象信息:" + JSON.stringify(jqXHR));
+                    console.log("请求结果状态:" + textStatus);
+                    console.log("错误信息:" + errorThrown);
+                }
+            })
+            
+            console.log("结果类型:" + typeof(result));
+            console.log("结果:" + JSON.stringify(result));
+			
+			// $.ajax({
+            //     url: "http://api.juheapi.com/japi/toh?",
+            //     type: "GET",
+            //     dataType: "jsonp",
+            //     success: function(data){
+            //         console.log("请求成功:" + data);
+            //     },
+            //     error: function(jqXHR, textStatus, errorThrown){
+            //         alert("网络出错:" + errorThrown);
+
+            //         // 请求出错
+            //         console.log("请求失败");
+            //         console.log("请求对象信息:" + JSON.stringify(jqXHR));
+            //         console.log("请求结果状态:" + textStatus);
+            //     }
+            // })
+        })
+        
+        $("#btn2").click(function(){
+            $("#box").hide();
+
+            //第一步：创建xhr对象
+            var xhr = null;
+            if(window.XMLHttpRequest){//标准浏览器
+                xhr = new XMLHttpRequest();
+            }else{//早期的IE浏览器
+                xhr = new ActiveXObject('Microsoft.XMLHTTP');
+            }
+
+            // xhr.setRequestHeader("Content-Type","application/json");
+            
+            
+
+            //第二步：准备发送请求-配置发送请求的一些行为
+            xhr.open('post',"./php/weather.php?key=d19e809c098780def41f3be0921aaef2&city=1",false);
+
+            
+
+            //第三步：执行发送的动作
+            xhr.send();
+
+            
+
+            // if(xhr.readyState == 4){
+            //         if(xhr.status == 200){
+            //             var data = xhr.responseText;//json
+            //             // var data1 = xhr.responseXML;
+            //             console.log("请求成功:" + JSON.stringify(data));
+            //         }else {
+            //             console.log("请求失败:" + xhr.status);
+            //         }
+            //     }
+
+            //第四步：指定一些回调函数
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        $("#box").show();
+
+                        var data = xhr.responseText;//json
+                        // var data1 = xhr.responseXML;
+                        console.log("请求成功:" + JSON.stringify(data));
+                    }else {
+                        console.log("请求失败:" + xhr.status);
+                    }
+                }
+            }
+        })
+
+        $("#btn3").click(function(){
+            $.ajax({
+                url: "./php/baidu.php",
+                success: function(data){
+                    console.log("结果:" + data);
+
+                    $("#box").append(data);
+                    $("#box").css({
+                        width: "500px",
+                        height: "500px"
+                    })
+                }
+            })
+        })
+
+        
+
+        $("#btn4").click(function(){
+            
+        })
+
+        function complete(){
+            console.log("完成");
+
+            var s = "";
+            for (i =0 ; i < arguments.length; i++){
+                s += " 第" + i + "个参数类型是：" + typeof(arguments[i]) + "值是:"+ JSON.stringify(arguments[i]) + "\n";
+            }
+            console.log(s);
+        }
+    })
+</script>
